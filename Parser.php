@@ -23,7 +23,7 @@ class Parser
     function save() {
         //parse through
         $suite = new Suite($this->db);
-        $suite->populate($this->file->suites);
+        $suite->populate($this->file->suites)->setParentId((null));
 
         $this->loop_through($suite);
     }
@@ -51,9 +51,9 @@ class Parser
         }
 
         if ($suite->getChildren()) {
-            foreach($suite->getChildren() as $suite) {
+            foreach($suite->getChildren() as $s) {
                 $cur_suite = new Suite($this->db);
-                $cur_suite->populate($suite);
+                $cur_suite->populate($s)->setParentId(($suite->getId()));
                 $this->loop_through($cur_suite);
             }
         }

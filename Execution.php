@@ -22,6 +22,7 @@ class Execution
 
     /**
      * @param $version
+     * @param $stats
      * @return mixed
      * @throws Exception
      */
