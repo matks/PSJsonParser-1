@@ -12,6 +12,7 @@ class Suite
     private $suites;
     private $tests;
     private $file;
+    private $duration;
     private $parent_id = null;
 
     private $db;
@@ -37,6 +38,7 @@ class Suite
         $this->filename = $suite->file;
         $this->campaign = $this->extract_from_filename('campaign');
         $this->file = $this->extract_from_filename('filename');
+        $this->duration = $suite->duration;
         return $this;
     }
 
@@ -73,6 +75,7 @@ class Suite
             'title'         => $this->title,
             'campaign'      => $this->campaign,
             'file'          => $this->file,
+            'duration'      => $this->duration,
             'parent_id'     => $this->parent_id
         ];
         $this->id = $this->db->insert('suite', $data);
