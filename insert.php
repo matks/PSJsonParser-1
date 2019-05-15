@@ -21,8 +21,7 @@ try{
 }
 $parser = new Parser($db);
 
-$parser->init('test.json');
-$parser->save();
+$parser->init('1.7.6.x', 'test.json');
 
 
 echo "Done !";
