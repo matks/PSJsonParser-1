@@ -12,15 +12,12 @@ class Parser
         $this->db = $db;
     }
 
-    function init($file) {
+    function init($version, $file) {
         $this->file = json_decode(file_get_contents($file));
 
         $execution = new Execution($this->db);
-        $this->execution = $execution->create('1.7.6.x', $this->file->stats);
-        return $this;
-    }
+        $this->execution = $execution->create($version, $this->file->stats);
 
-    function save() {
         //parse through
         $suite = new Suite($this->db);
         $suite->populate($this->file->suites)->setParentId((null));
@@ -28,7 +25,7 @@ class Parser
         $this->loop_through($suite);
     }
 
-    function loop_through($suite) {
+    private function loop_through($suite) {
 
 
         if ($suite->getCampaign() != $this->suite_campaignname) {
@@ -38,7 +35,7 @@ class Parser
             $this->suite_filename = $suite->getFilename();
         }
 
-        //insertion de la suite
+        //inserting current suite
         $suite->setExecutionId($this->execution->getId());
         $suite->insert();
 
@@ -46,7 +43,7 @@ class Parser
         if ($suite->getTests()) {
             foreach($suite->getTests() as $test) {
                 $cur_test = new Test($this->db);
-                $cur_test->populate($test)->setScenarioId($suite->getId())->insert();
+                $cur_test->populate($test)->setSuiteId($suite->getId())->insert();
             }
         }
 

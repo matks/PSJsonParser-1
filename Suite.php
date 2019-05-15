@@ -17,7 +17,7 @@ class Suite
     private $db;
 
     /**
-     * Scenario constructor.
+     * Suite constructor.
      * @param $db
      */
     function __construct($db) {
@@ -83,7 +83,7 @@ class Suite
      * @param $parent_id
      * @return int
      */
-    function getAllScenarioByParent($parent_id) {
+    function getAllSuiteByParent($parent_id) {
         return $this->db->select('* FROM suite WHERE parent_id = :parent_id', [':parent_id' => $parent_id]);
     }
 
@@ -125,7 +125,7 @@ class Suite
                 case 'campaign':
                     $pattern = '/\/full\/(.*)\//';
                     preg_match($pattern, $this->filename, $matches);
-                    return isset($matches[1]) ? " " : $matches[1];
+                    return isset($matches[1]) ? $matches[1] : "";
                     break;
                 case 'filename':
                     $pos = strrpos($this->filename, '/');

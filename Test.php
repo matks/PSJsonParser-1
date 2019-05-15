@@ -12,7 +12,7 @@ class Test
         'diff' => null,
         'estack' => null
     ];
-    private $scenario_id = null;
+    private $suite_id = null;
     private $db;
 
     /**
@@ -50,8 +50,8 @@ class Test
      * @param $id
      * @return $this
      */
-    function setScenarioId($id) {
-        $this->scenario_id = $id;
+    function setSuiteId($id) {
+        $this->suite_id = $id;
         return $this;
     }
 
@@ -67,18 +67,29 @@ class Test
             'error_message' => $this->err['message'],
             'stack_trace' => $this->err['estack'],
             'diff' => $this->err['diff'],
-            'scenario_id' => $this->scenario_id,
+            'suite_id' => $this->suite_id,
         ];
         $this->id = $this->db->insert('test', $data);
         return $this;
     }
 
     /**
-     * @param $scenario_id
+     * @param $suite_id
      * @return row
      */
-    function getByScenarioId($scenario_id) {
-        return $this->db->select('* FROM test WHERE scenario_id = :scenario_id ORDER BY id ASC', [':scenario_id' => $scenario_id]);
+    function getBySuiteId($suite_id) {
+        return $this->db->select('* FROM test WHERE suite_id = :suite_id ORDER BY id ASC', [':suite_id' => $suite_id]);
+    }
+
+    function getAllByExecutionId($execution_id) {
+        $sth = $this->db->prepare("
+        SELECT t.*
+        FROM test t 
+        INNER JOIN suite s ON t.suite_id = s.id
+        WHERE s.execution_id = :execution_id;");
+        $sth->execute(['execution_id' => $execution_id]);
+        return $sth->fetchAll(PDO::FETCH_OBJ);
+
     }
 
     private function sanitize($text) {
