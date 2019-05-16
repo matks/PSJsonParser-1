@@ -201,6 +201,11 @@ echo '</pre>';
                         if ($skipped > 0) {
                             echo '<div class="block_info tests_skipped"><i class="material-icons">skip_next</i> <div class="info ">'.$skipped.'</div></div>';
                         }
+                        echo '<div class="metric_container">';
+                        echo '<div class="metric">';
+                        echo '<div class="background"><div class="metric_number">'.(round($passed/sizeof($suite->tests), 3) * 100).'%</div><div class="advancement" style="width:'.(round($passed/sizeof($suite->tests), 3) * 100).'%"></div></div>';
+                        echo '</div>';
+                        echo '</div>';
 
                     echo '</div>';
                 }
@@ -272,10 +277,10 @@ echo '</pre>';
                 let icc = document.getElementById('icon_campaign_'+id);
                 if (stc.display != "block") {
                     stc.display = "block";
-                    icc.innerHTML = 'expand_less';
+                    icc.innerHTML = 'expand_more';
                 } else {
                     stc.display = "none";
-                    icc.innerHTML = 'expand_more';
+                    icc.innerHTML = 'expand_less';
                 }
             })
         }
@@ -288,10 +293,10 @@ echo '</pre>';
                 let icf = document.getElementById('icon_file_'+id);
                 if (stf.display != "block") {
                     stf.display = "block";
-                    icf.innerHTML = 'expand_less';
+                    icf.innerHTML = 'expand_more';
                 } else {
                     stf.display = "none";
-                    icf.innerHTML = 'expand_more';
+                    icf.innerHTML = 'expand_less';
                 }
             })
         }
