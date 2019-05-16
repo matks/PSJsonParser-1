@@ -61,6 +61,21 @@ class Execution
         return $this->id;
     }
 
+    function getRef() {
+        return $this->ref;
+    }
+
+    function getTotalDuration() {
+        $start = strtotime($this->start_date);
+        $end = strtotime($this->end_date);
+        $difference = $end - $start;
+
+        $hours = floor($difference / 3600);
+        $minutes = floor(($difference / 60) % 60);
+        $seconds = $difference % 60;
+        return $hours.'h'.$minutes.'m'.$seconds.'s';
+    }
+
     private function format_datetime($value) {
         return date('Y-m-d H:i:s', strtotime($value));
     }

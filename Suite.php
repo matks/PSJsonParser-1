@@ -114,7 +114,7 @@ class Suite
     }
 
     function getAllByExecutionId($execution_id) {
-        return $this->db->select('* FROM suite WHERE execution_id = :execution_id', ['execution_id' => $execution_id]);
+        return $this->db->select('* FROM suite WHERE execution_id = :execution_id ORDER BY campaign, id', ['execution_id' => $execution_id]);
     }
 
 
@@ -134,6 +134,8 @@ class Suite
                     $pos = strrpos($this->filename, '/');
                     return substr($this->filename, $pos + 1);
                     break;
+                default:
+                    return "";
             }
         } else {
             return '';
