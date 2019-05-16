@@ -36,9 +36,8 @@ class Suite
         $this->suites = $suite->suites;
         $this->tests = $suite->tests;
         $this->filename = $suite->file;
-        $this->campaign = $this->extract_from_filename('campaign');
-        $this->file = $this->extract_from_filename('filename');
         $this->duration = $suite->duration;
+        $this->extractNames();
         return $this;
     }
 
@@ -68,6 +67,10 @@ class Suite
     function insert() {
         if (!$this->execution_id) {
             throw new Exception("Please provide an execution ID");
+        }
+        if ($this->checkExistence()) {
+            //Houston, we have a problem in this JSON... let's skip this one
+            return false;
         }
         $data = [
             'execution_id'  => $this->execution_id,
@@ -117,28 +120,18 @@ class Suite
         return $this->db->select('* FROM suite WHERE execution_id = :execution_id ORDER BY campaign, id', ['execution_id' => $execution_id]);
     }
 
-
-    /**
-     * @param $type
-     * @return string
-     */
-    private function extract_from_filename($type) {
-        if(strlen($this->filename) > 0) {
-            switch ($type) {
-                case 'campaign':
-                    $pattern = '/\/full\/(.*)\//';
-                    preg_match($pattern, $this->filename, $matches);
-                    return isset($matches[1]) ? $matches[1] : "";
-                    break;
-                case 'filename':
-                    $pos = strrpos($this->filename, '/');
-                    return substr($this->filename, $pos + 1);
-                    break;
-                default:
-                    return "";
-            }
+    private function extractNames() {
+        if (strlen($this->filename) > 0) {
+            $pattern = '/\/full\/(.*?)\/(.*)/';
+            preg_match($pattern, $this->filename, $matches);
+            $this->campaign = isset($matches[1]) ? $matches[1] : "";
+            $this->file = isset($matches[2]) ? $matches[2] : "";
         } else {
-            return '';
+            return "";
         }
+    }
+
+    private function checkExistence() {
+        return $this->db->select("* FROM suite WHERE uuid=:uuid AND execution_id=:execution_id;", ['uuid' => $this->uuid, 'execution_id' => $this->execution_id]);
     }
 }
