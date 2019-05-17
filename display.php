@@ -1,11 +1,11 @@
 <?php
 
-require_once('Execution.php');
-require_once('Suite.php');
-require_once('Test.php');
-require_once('Parser.php');
+require_once('class/Execution.php');
+require_once('class/Suite.php');
+require_once('class/Test.php');
+require_once('class/Parser.php');
 
-require_once('database.php');
+require_once('class/database.php');
 //db properties
 define('DB_TYPE','mysql');
 define('DB_HOST','localhost');
@@ -87,9 +87,16 @@ $suites_container = array_shift(array_values(buildTree($suites)));
 
 function format_duration($duration) {
     if ($duration != 0) {
-        $secs = round($duration/1000, 3);
+        $secs = round($duration/1000, 2);
 
-        return $secs.'s';
+        $return = '';
+
+        $minutes = floor(($secs / 60) % 60);
+        if ($minutes > 0) {
+            $return .= $minutes.'m';
+        }
+        $return .= $secs.'s';
+        return $return;
     }
 }
 
@@ -100,7 +107,7 @@ echo '</pre>';
 ?>
 <html>
 <head>
-    <title>Test JSON</title>
+    <title>Display a report</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -141,6 +148,11 @@ echo '</pre>';
     </div>
 </div>
 <div class="container">
+    <div class="options">
+        <div class="buttons_container">
+            <div class="button" id="fold">Fold everything</div>
+        </div>
+    </div>
     <div class="details">
         <?php
         $current_campaign_name = '';
@@ -156,9 +168,9 @@ echo '</pre>';
                     }
                     $current_campaign_name = $suite->campaign;
                     echo '<div class="campaign_title" id="'.$suite->campaign.'">';
-                    echo '<h2><i class="material-icons">library_books</i> '.$suite->campaign.' <i class="material-icons" id="icon_campaign_'.$suite->campaign.'">expand_less</i></h2>';
+                    echo '<h2><i class="material-icons">library_books</i> '.$suite->campaign.'</h2>';
                     echo '</div>';
-                    echo '<article class="container_campaign" id="campaign_'.$suite->campaign.'" style="display:none">';
+                    echo '<article class="container_campaign" id="campaign_'.$suite->campaign.'">';
                 }
                 if ($current_file_name != $suite->file) {
                     if ($current_file_name != '') {
@@ -166,7 +178,7 @@ echo '</pre>';
                     }
                     $current_file_name = $suite->file;
                     echo '<div class="file_title" id="'.$suite->file.'">';
-                    echo '<h3><i class="material-icons">assignment</i> '.$suite->file.' <i class="material-icons" id="icon_file_'.$suite->file.'">expand_less</i></h3>';
+                    echo '<h3><i class="material-icons">assignment</i> '.$suite->file.'</h3>';
                     echo '</div>';
                     echo '<section class="container_file" id="file_'.$suite->file.'" style="display:none">';
                     echo '<hr />';
@@ -226,7 +238,7 @@ echo '</pre>';
                         echo '<section class="test_component '.$test->state.'">';
                             echo '<div class="block_test">';
                                 echo '<div id="' . $test->uuid . '" class="test">
-                                    <div class="test_' . $test->state . '"> ' .$icon.' <span class="test-title" id="' . $test->uuid . '">'.$test->title . '</span></div>';
+                                    <div class="test_' . $test->state . '"> ' .$icon.' <span class="test_title" id="' . $test->uuid . '">'.$test->title . '</span></div>';
                                     echo '<div class="test_duration"><i class="material-icons">timer</i> '.format_duration($test->duration).'</div>';
                                 if ($test->state == 'failed') {
                                     echo '<div class="test_info error_message">' . $test->error_message . '</div>';
@@ -256,9 +268,10 @@ echo '</pre>';
 </div>
 <script>
     window.onload = function() {
-        const test_blocks = document.querySelectorAll(".test-title");
+        let test_blocks;
+        test_blocks = document.querySelectorAll(".test_title");
         for (const test_block of test_blocks) {
-            test_block.addEventListener('click', function() {
+            test_block.addEventListener('click', function(event, item, t) {
                 let id = this.id;
                 let stt = document.getElementById('stack_'+id).style;
                 if (stt.display != "block") {
@@ -269,37 +282,28 @@ echo '</pre>';
             })
         }
 
-        const campaign_titles = document.querySelectorAll(".campaign_title");
-        for (const campaign_title of campaign_titles) {
-            campaign_title.addEventListener('click', function() {
-                let id = this.id;
-                let stc = document.getElementById('campaign_'+id).style;
-                let icc = document.getElementById('icon_campaign_'+id);
-                if (stc.display != "block") {
-                    stc.display = "block";
-                    icc.innerHTML = 'expand_more';
-                } else {
-                    stc.display = "none";
-                    icc.innerHTML = 'expand_less';
-                }
-            })
-        }
-
-        const file_titles = document.querySelectorAll(".file_title");
+        let file_titles;
+        file_titles = document.querySelectorAll(".file_title");
         for (const file_title of file_titles) {
             file_title.addEventListener('click', function() {
                 let id = this.id;
                 let stf = document.getElementById('file_'+id).style;
-                let icf = document.getElementById('icon_file_'+id);
                 if (stf.display != "block") {
                     stf.display = "block";
-                    icf.innerHTML = 'expand_more';
                 } else {
                     stf.display = "none";
-                    icf.innerHTML = 'expand_less';
                 }
             })
         }
+
+        let fold_button;
+        fold_button = document.getElementById('fold');
+        fold_button.addEventListener('click', function() {
+            let blocks = document.querySelectorAll('.container_file');
+            blocks.forEach(function(block) {
+                block.style.display="block";
+            });
+        });
     }
 
 </script>

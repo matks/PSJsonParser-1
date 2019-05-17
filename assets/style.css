@@ -116,7 +116,7 @@ h3.suite_title {
     font-size: 16px;
     line-height: 16px;
     position: relative;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .material-icons {
@@ -193,7 +193,6 @@ h3.suite_title {
 
 .test {
     position: relative;
-    cursor: pointer;
     line-height: 24px;
 }
 
@@ -207,11 +206,15 @@ h3.suite_title {
     color: green;
 }
 
+.test_failed {
+    cursor: pointer;
+}
+
 .test_failed>.icon {
     color: red;
 }
 
-.test-title {
+.test_title {
     margin-left: 30px;
     font-size: 14px;
 }
@@ -257,7 +260,6 @@ code {
 
 .campaign_title {
     padding: 5px 0 5px 10px;
-    cursor: pointer;
     line-height: 26px;
 }
 
@@ -271,6 +273,10 @@ code {
     margin: 0;
     color: #37474f;
     font-family: 'Roboto Mono', monospace;
+}
+
+.container_campaign {
+    padding-left: 10px;
 }
 
 .file_title {
@@ -310,7 +316,6 @@ hr {
     height: 30px;
     background-color: red;
     position: relative;
-    border-radius: 3px;
 }
 
 
@@ -321,7 +326,7 @@ hr {
     left: 0;
     margin-left: 5px;
     font-weight: bold;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.98);
     font-size: 15px;
     z-index: 5;
     line-height: 30px;
@@ -333,5 +338,4 @@ hr {
     top: 0;
     bottom: 0;
     left: 0;
-    border-radius: 3px;
 }
