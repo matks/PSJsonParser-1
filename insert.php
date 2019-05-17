@@ -1,11 +1,11 @@
 <?php
 
-require_once('Execution.php');
-require_once('Suite.php');
-require_once('Test.php');
-require_once('Parser.php');
+require_once('class/Execution.php');
+require_once('class/Suite.php');
+require_once('class/Test.php');
+require_once('class/Parser.php');
 
-require_once('database.php');
+require_once('class/database.php');
 //db properties
 define('DB_TYPE','mysql');
 define('DB_HOST','localhost');
@@ -21,7 +21,7 @@ try{
 }
 $parser = new Parser($db);
 
-$parser->init('1.7.6.x', 'report.json');
+$parser->init('1.7.6.x', 'files/reports_2019-05-16-1.7.6.x.json');
 
 
 echo "Done !";
