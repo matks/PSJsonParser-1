@@ -1,0 +1,337 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #F2F2F2;
+}
+
+.container {
+    max-width: 1170px;
+    margin: 0 auto;
+    padding: 80px 0 0 0;
+}
+
+.details {
+    background-color: white;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+.navbar {
+    min-height: 60px;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    margin-bottom: 0;
+    border: none;
+    background: #37474f;
+    z-index: 9999;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+.navbar .navbar_container {
+    position: relative;
+}
+
+.navbar .title {
+    margin: 0 auto;
+    padding: 15px 0;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+}
+
+.navbar .title h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+}
+
+.navbar .summary {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 60px;
+    margin-right: 10px;
+    padding-top: 15px;
+}
+
+.summary_block {
+    min-width: 50px;
+    height: 60px;
+    display: inline-block;
+    vertical-align: middle;
+    color: white;
+    margin: 0 10px;
+}
+
+.summary_block.passed_tests {
+    color: #48E57C;
+}
+
+.summary_block.failed_tests {
+    color: #E54848;
+}
+
+.summary_block.skipped_tests {
+    color: #C6C6C6;
+}
+
+
+h3.suite_title {
+    margin: 3px 0;
+    font-weight: 100;
+    line-height: 1.1;
+    font-size: 24px;
+}
+
+.suite {
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    margin: 10px 0 10px 10px;
+    padding: 0;
+}
+
+.suite:first-child {
+    border: none;
+    margin: 0;
+}
+
+.suite_header {
+    padding: 10px 10px 0 20px;
+}
+
+.campaign {
+    font-size: 12px;
+    color: grey;
+    margin: 3px 0;
+}
+
+.informations {
+    color: grey;
+    font-size: 16px;
+    line-height: 16px;
+    position: relative;
+    margin-top: 15px;
+}
+
+.material-icons {
+    vertical-align: bottom;
+}
+
+.informations .material-icons {
+    display: inline-block;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.informations .block_info {
+    display: inline-block;
+    position: relative;
+    margin: 0 5px 0 0;
+    padding: 5px 0;
+    line-height: 16px;
+}
+
+.informations .info {
+    margin: 0 5px 0 20px;
+    line-height: 16px;
+    position: relative;
+}
+
+.informations .block_info i.material-icons {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.informations .block_info.tests_passed {
+    color: green;
+}
+.informations .block_info.tests_failed {
+     color: red;
+ }
+.informations .block_info.tests_skipped {
+      color: #a3a3a3;
+  }
+
+.test_container {
+    margin: 10px 0 0 0;
+    padding: 0;
+    border-top: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.test_component {
+    border-left: 3px solid transparent;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.test_component:last-child {
+    border-left: 3px solid transparent;
+    border-bottom: none;
+}
+
+.test_component.passed:hover {
+    border-left: 3px solid green;
+}
+
+.test_component.failed:hover {
+    border-left: 3px solid red;
+}
+
+.block_test {
+    padding: 10px 0;
+    margin: 0 16px 0 13px;
+}
+
+.test {
+    position: relative;
+    cursor: pointer;
+    line-height: 24px;
+}
+
+.test i.icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.test_passed>.icon {
+    color: green;
+}
+
+.test_failed>.icon {
+    color: red;
+}
+
+.test-title {
+    margin-left: 30px;
+    font-size: 14px;
+}
+
+.test_info {
+    padding: 10px 5px;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    color: grey;
+    font-size: 14px;
+}
+
+.test_info.stack_trace {
+    display: none;
+}
+
+.test_info.stack_trace code {
+    background-color: #EEEEEE;
+    border-radius: 5px;
+}
+
+.test_info.error_message {
+    color: red;
+}
+
+.test .test_duration {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: grey;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.test .test_duration .material-icons {
+    font-size: 14px;
+}
+
+code {
+    font-family: Menlo,Monaco,Consolas,Courier New,monospace;
+    font-size: 12px;
+}
+
+.campaign_title {
+    padding: 5px 0 5px 10px;
+    cursor: pointer;
+    line-height: 26px;
+}
+
+.campaign_title:last-child {
+    padding-bottom: 10px;
+ }
+
+.campaign_title h2 {
+    font-weight: bold;
+    font-size: 26px;
+    margin: 0;
+    color: #37474f;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.file_title {
+    padding: 5px 0 5px 10px;
+    cursor: pointer;
+    line-height: 20px;
+}
+
+.file_title h3 {
+    font-weight: normal;
+    font-size: 20px;
+    margin: 0;
+    color: #4B5AA9;
+    font-family: 'Roboto Mono', monospace;
+}
+
+hr {
+    width: 90%;
+    border-top-color: #37474f;
+}
+
+.metric_container {
+    width: 150px;
+    height: 30px;
+    position: relative;
+    float: right;
+}
+
+.metric {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.metric .background {
+    width: 150px;
+    height: 30px;
+    background-color: red;
+    position: relative;
+    border-radius: 3px;
+}
+
+
+.metric .background .metric_number  {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin-left: 5px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+    z-index: 5;
+    line-height: 30px;
+}
+
+.metric .background .advancement {
+    background-color: green;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+}
