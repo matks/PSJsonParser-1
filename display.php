@@ -148,12 +148,13 @@ echo '</pre>';
     </div>
 </div>
 <div class="container">
-    <div class="options">
-        <div class="buttons_container">
-            <div class="button" id="fold">Fold everything</div>
-        </div>
-    </div>
+
     <div class="details">
+        <div class="options">
+            <div class="buttons_container">
+                <button id="fold"><i class="material-icons">unfold_more</i>Unfold everything</button>
+            </div>
+        </div>
         <?php
         $current_campaign_name = '';
         $current_file_name = '';
