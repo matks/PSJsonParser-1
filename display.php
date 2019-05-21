@@ -157,6 +157,14 @@ function format_duration($duration) {
 
     <div class="details">
         <div class="options">
+            <div class="blocks_container">
+                <div class="block">
+                    Start Date : <?php echo date('d/m/Y H:i', strtotime($execution->getStartDate())); ?>
+                </div>
+                <div class="block">
+                    End Date : <?php echo date('d/m/Y H:i', strtotime($execution->getEndDate())); ?>
+                </div>
+            </div>
         </div>
         <div id="left_summary">
             <?php
@@ -272,7 +280,6 @@ function format_duration($duration) {
                             if ($test->state == 'failed') {
                                 echo '<div class="test_info error_message">' . $test->error_message . '</div>';
                                 echo '<div class="test_info stack_trace" id="stack_'.$test->uuid.'">
-                                            <div class="error_filename">Origin of this test : <span>'.$suite->campaign.'/'.$suite->file.'</span></div>
                                             <code>' . str_replace('    at', "<br />&nbsp;&nbsp;&nbsp;&nbsp;at", $test->stack_trace) . '</code>
                                             </div>';
                             }

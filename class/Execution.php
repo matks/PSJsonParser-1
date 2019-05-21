@@ -65,6 +65,14 @@ class Execution
         return $this->ref;
     }
 
+    function getStartDate() {
+        return $this->start_date;
+    }
+
+    function getEndDate() {
+        return $this->end_date;
+    }
+
     function getTotalDuration() {
         $start = strtotime($this->start_date);
         $end = strtotime($this->end_date);

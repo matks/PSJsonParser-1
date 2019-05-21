@@ -13,7 +13,6 @@ button {
     padding: 3px 15px;
     background-color: #eee;
     border: none;
-    box-shadow: none;
     border-radius: 3px;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
     cursor: pointer;
@@ -35,6 +34,7 @@ button:hover {
 .details {
     background-color: white;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+    position: relative;
 }
 
 #left_summary {
@@ -65,7 +65,13 @@ button:hover {
 #left_summary .campaign {
     font-weight: bold;
     font-size: 12px;
-    margin: 10px 0 0 0;
+    margin: 8px 0 0 0;
+}
+
+#left_summary .campaign:first-child {
+    font-weight: bold;
+    font-size: 12px;
+    margin: 0;
 }
 
 #left_summary .campaign a {
@@ -371,7 +377,6 @@ code {
 
 .file_title {
     padding: 5px 0 5px 10px;
-    cursor: pointer;
     line-height: 20px;
 }
 
@@ -440,9 +445,12 @@ hr {
 
 .blocks_container {
     height: 60px;
-    padding: 10px;
+    padding: 5px;
 }
 
-.blocks_container button {
+.blocks_container .block {
     height: 40px;
+    display: inline-block;
+    margin: 5px 10px;
+    line-height: 40px;
 }
