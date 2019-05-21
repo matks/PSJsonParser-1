@@ -9,6 +9,11 @@ class Execution
     private $end_date;
     private $duration;
     private $version;
+    private $suites;
+    private $tests;
+    private $skipped;
+    private $passes;
+    private $failures;
     private $db;
 
     /**
@@ -31,7 +36,18 @@ class Execution
         $this->version = $version;
         $this->stats = $stats;
 
-        $id = $this->db->insert('execution', ['ref' => $this->ref, 'version' => $this->version, 'duration' => $this->stats->duration, 'start_date' => $this->format_datetime($this->stats->start), 'end_date' => $this->format_datetime($this->stats->end)]);
+        $id = $this->db->insert('execution', [
+            'ref' => $this->ref,
+            'version' => $this->version,
+            'duration' => $this->stats->duration,
+            'start_date' => $this->format_datetime($this->stats->start),
+            'end_date' => $this->format_datetime($this->stats->end),
+            'suites' => $this->stats->suites,
+            'tests' => $this->stats->tests,
+            'skipped' => $this->stats->skipped,
+            'passes' => $this->stats->passes,
+            'failures' => $this->stats->failures ,
+        ]);
         return $this->populate($id);
     }
 
@@ -50,6 +66,11 @@ class Execution
         $this->start_date = $row->start_date;
         $this->end_date = $row->end_date;
         $this->version = $row->version;
+        $this->suites = $row->suites;
+        $this->tests = $row->tests;
+        $this->skipped = $row->skipped;
+        $this->passes = $row->passes;
+        $this->failures = $row->failures;
 
         return $this;
     }
@@ -86,6 +107,10 @@ class Execution
 
     function getVersions() {
         return $this->db->select('DISTINCT(version) FROM execution;');
+    }
+
+    function getCustomData($criteria) {
+
     }
 
     private function format_datetime($value) {

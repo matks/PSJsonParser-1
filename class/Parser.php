@@ -20,7 +20,7 @@ class Parser
 
         //parse through
         $suite = new Suite($this->db);
-        $suite->populate($this->file->suites)->setParentId((null));
+        $suite->populate($this->file->suites)->setParentId(null);
 
         $this->loop_through($suite);
     }

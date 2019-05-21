@@ -2,8 +2,6 @@
 require_once('config.php');
 $parser = new Parser($db);
 
-die();
-
 $directory = 'files/';
 $list = array_diff(scandir($directory), array('..', '.'));
 foreach($list as $file) {

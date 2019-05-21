@@ -13,6 +13,14 @@ class Suite
     private $tests;
     private $file;
     private $duration;
+    private $hasSkipped;
+    private $hasPasses;
+    private $hasFailures;
+    private $totalSkipped;
+    private $totalPasses;
+    private $totalFailures;
+    private $hasSuites;
+    private $hasTests;
     private $parent_id = null;
 
     private $db;
@@ -37,6 +45,14 @@ class Suite
         $this->tests = $suite->tests;
         $this->filename = $suite->file;
         $this->duration = $suite->duration;
+        $this->hasSkipped = $suite->hasSkipped;
+        $this->hasPasses = $suite->hasPasses;
+        $this->hasFailures = $suite->hasFailures;
+        $this->totalSkipped = $suite->totalSkipped;
+        $this->totalPasses = $suite->totalPasses;
+        $this->totalFailures = $suite->totalFailures;
+        $this->hasSuites = $suite->hasSuites;
+        $this->hasTests = $suite->hasTests;
         $this->extractNames();
         return $this;
     }
@@ -79,6 +95,14 @@ class Suite
             'campaign'      => $this->campaign,
             'file'          => $this->file,
             'duration'      => $this->duration,
+            'hasSkipped'      => $this->hasSkipped ? 1 : 0,
+            'hasPasses'      => $this->hasPasses ? 1 : 0,
+            'hasFailures'      => $this->hasFailures ? 1 : 0,
+            'totalSkipped'      => $this->totalSkipped,
+            'totalPasses'      => $this->totalPasses,
+            'totalFailures'      => $this->totalFailures,
+            'hasSuites'      => $this->hasSuites ? 1 : 0,
+            'hasTests'      => $this->hasTests ? 1 : 0,
             'parent_id'     => $this->parent_id
         ];
         $this->id = $this->db->insert('suite', $data);
