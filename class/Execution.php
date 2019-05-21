@@ -84,6 +84,10 @@ class Execution
         return $hours.'h'.$minutes.'m'.$seconds.'s';
     }
 
+    function getVersions() {
+        return $this->db->select('DISTINCT(version) FROM execution;');
+    }
+
     private function format_datetime($value) {
         return date('Y-m-d H:i:s', strtotime($value));
     }

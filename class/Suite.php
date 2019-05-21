@@ -136,6 +136,10 @@ class Suite
         }
     }
 
+    function getCampaigns() {
+        return $this->db->select('DISTINCT(campaign) FROM suite WHERE campaign IS NOT NULL ORDER BY campaign;');
+    }
+
     private function checkExistence() {
         return $this->db->select("* FROM suite WHERE uuid=:uuid AND execution_id=:execution_id;", ['uuid' => $this->uuid, 'execution_id' => $this->execution_id]);
     }
