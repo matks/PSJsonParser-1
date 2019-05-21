@@ -6,6 +6,7 @@ require_once('class/Test.php');
 require_once('class/Parser.php');
 
 require_once('class/database.php');
+
 //db properties
 define('DB_TYPE','mysql');
 define('DB_HOST','localhost');
