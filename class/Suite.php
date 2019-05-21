@@ -120,6 +120,11 @@ class Suite
         return $this->db->select('* FROM suite WHERE execution_id = :execution_id ORDER BY campaign, id', ['execution_id' => $execution_id]);
     }
 
+    function getAllCampaignsAndFilesByExecutionId($execution_id)
+    {
+        return $this->db->select("campaign, file FROM suite WHERE execution_id = :execution_id AND campaign IS NOT NULL GROUP BY campaign, file ORDER BY campaign, file;", ['execution_id' => $execution_id]);
+    }
+
     private function extractNames() {
         if (strlen($this->filename) > 0) {
             $pattern = '/\/full\/(.*?)\/(.*)/';
