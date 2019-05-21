@@ -29,11 +29,83 @@ button:hover {
     max-width: 1170px;
     margin: 0 auto;
     padding: 80px 0 0 0;
+    max-height: 100%;
 }
 
 .details {
     background-color: white;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+#left_summary {
+    float: left;
+    width: 250px;
+    padding: 5px;
+    position: sticky;
+    top: 60px;
+    bottom: 0;
+    max-height: calc(90vh - 90px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#content {
+    margin-left: 255px;
+}
+
+#left_summary .campaign, #left_summary .file {
+    margin: 5px;
+    color: black;
+    font-weight: normal;
+    overflow: hidden;
+    word-wrap: break-word;
+    padding: 2px;
+}
+
+#left_summary .campaign {
+    font-weight: bold;
+    font-size: 12px;
+    margin: 10px 0 0 0;
+}
+
+#left_summary .campaign a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+    color: black;
+    cursor: pointer;
+}
+
+#left_summary .campaign a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+#left_summary .campaign:hover {
+    background-color: #4B5AA9;
+    color: #eee;
+}
+
+#left_summary .file {
+    padding: 2px;
+    font-size: 11px;
+    margin: 0 0 0 5px;
+}
+
+#left_summary .file a {
+    text-decoration: none;
+    font-size: 11px;
+    color: black;
+}
+
+#left_summary .file a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+#left_summary .file:hover {
+    background-color: #4B5AA9;
+    color: #eee;
 }
 
 .navbar {
@@ -205,7 +277,7 @@ h3.suite_title {
 }
 
 .block_test {
-    padding: 10px 0;
+    padding: 2px 0;
     margin: 0 16px 0 13px;
 }
 
@@ -366,11 +438,11 @@ hr {
     color: white;
 }
 
-.buttons_container {
+.blocks_container {
     height: 60px;
     padding: 10px;
 }
 
-.buttons_container button {
+.blocks_container button {
     height: 40px;
 }

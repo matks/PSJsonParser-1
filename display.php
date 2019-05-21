@@ -66,6 +66,13 @@ foreach($suites as $suite) {
     }
 }
 
+//get all campaign
+$suite = new Suite($db);
+$campaignsAndFiles = $suite->getAllCampaignsAndFilesByExecutionId($id);
+//echo '<pre>';
+//print_r($campaignsAndFiles);
+//echo '</pre>';
+
 function buildTree(array &$suites, $parentId = null) {
     $branch = array();
     foreach ($suites as &$suite) {
@@ -83,7 +90,6 @@ function buildTree(array &$suites, $parentId = null) {
 }
 
 $suites_container = array_shift(array_values(buildTree($suites)));
-//$suites_container = array_shift(array_values($suites_container));
 
 function format_duration($duration) {
     if ($duration != 0) {
@@ -100,9 +106,9 @@ function format_duration($duration) {
     }
 }
 
-echo '<pre>';
+//echo '<pre>';
 //print_r($suites_container->suites);
-echo '</pre>';
+//echo '</pre>';
 
 ?>
 <html>
@@ -117,7 +123,7 @@ echo '</pre>';
 <div class="navbar">
     <div class="navbar_container">
         <div class="title">
-            <h2>Rapport <?php echo $execution->getRef(); ?></h2>
+            <h2>Report <?php echo $execution->getRef(); ?></h2>
         </div>
         <div class="summary">
             <div class="summary_block suites" title="Execution time">
@@ -151,47 +157,69 @@ echo '</pre>';
 
     <div class="details">
         <div class="options">
-            <div class="buttons_container">
-                <button id="fold"><i class="material-icons">unfold_more</i>Unfold everything</button>
-            </div>
         </div>
-        <?php
-        $current_campaign_name = '';
-        $current_file_name = '';
+        <div id="left_summary">
+            <?php
+                if (sizeof($campaignsAndFiles) > 0) {
+                    $cur_campaign = $campaignsAndFiles[0]->campaign;
+                    echo '<div id="campaign_list">';
+                    echo '<div class="campaign"><a href="#'.$cur_campaign.'">'.$cur_campaign.'</a></div>';
+                    echo '<div class="file_list">';
+                    foreach($campaignsAndFiles as $item) {
+                        if ($cur_campaign != $item->campaign) {
+                            $cur_campaign = $item->campaign;
+                            echo '</div>'; //closing the file list
+                            echo '<div class="campaign"><a href="#'.$cur_campaign.'">'.$cur_campaign.'</a></div>';
+                            echo '<div class="file_list">';
+                        }
+                        echo '<div class="file"><a href="#'.$item->file.'">'.$item->file.'</a></div>';
+                        //listing files in it
+                    }
+                    echo '</div>'; //closing the file list
+                    echo '</div>'; //closing the campaign list
+                }
+            ?>
+        </div>
+        <div id="content">
+            <?php
+            $current_campaign_name = '';
+            $current_file_name = '';
 
-        function loop_through($cur_suites) {
-            global $current_campaign_name;
-            global $current_file_name;
-            foreach($cur_suites as $suite) {
-                if ($current_campaign_name != $suite->campaign) {
-                    if ($current_campaign_name != '') {
-                        echo '</article>';
+            function loop_through($cur_suites) {
+                global $current_campaign_name;
+                global $current_file_name;
+                foreach($cur_suites as $suite) {
+                    if ($current_campaign_name != $suite->campaign) {
+                        if ($current_campaign_name != '') {
+                            echo '</article>';
+                        }
+                        $current_campaign_name = $suite->campaign;
+                        echo '<a name="'.$suite->campaign.'"></a>';
+                        echo '<div class="campaign_title" id="'.$suite->campaign.'">';
+                        echo '<h2><i class="material-icons">library_books</i> '.$suite->campaign.'</h2>';
+                        echo '</div>';
+                        echo '<article class="container_campaign" id="campaign_'.$suite->campaign.'">';
                     }
-                    $current_campaign_name = $suite->campaign;
-                    echo '<div class="campaign_title" id="'.$suite->campaign.'">';
-                    echo '<h2><i class="material-icons">library_books</i> '.$suite->campaign.'</h2>';
-                    echo '</div>';
-                    echo '<article class="container_campaign" id="campaign_'.$suite->campaign.'">';
-                }
-                if ($current_file_name != $suite->file) {
-                    if ($current_file_name != '') {
-                        echo '</section>';
+                    if ($current_file_name != $suite->file) {
+                        if ($current_file_name != '') {
+                            echo '</section>';
+                        }
+                        $current_file_name = $suite->file;
+                        echo '<a name="'.$suite->file.'"></a>';
+                        echo '<div class="file_title" id="'.$suite->file.'">';
+                        echo '<h3><i class="material-icons">assignment</i> '.$suite->file.'</h3>';
+                        echo '</div>';
+                        echo '<section class="container_file" id="file_'.$suite->file.'">';
+                        echo '<hr />';
                     }
-                    $current_file_name = $suite->file;
-                    echo '<div class="file_title" id="'.$suite->file.'">';
-                    echo '<h3><i class="material-icons">assignment</i> '.$suite->file.'</h3>';
-                    echo '</div>';
-                    echo '<section class="container_file" id="file_'.$suite->file.'" style="display:none">';
-                    echo '<hr />';
-                }
-                echo '<section class="suite">';
-                echo '<header class="suite_header">';
+                    echo '<section class="suite">';
+                    echo '<header class="suite_header">';
                     echo '<h3 class="suite_title">' . $suite->title . '</h3>';
                     if (sizeof($suite->tests) > 0) {
                         echo '<div class="campaign">' . $suite->campaign . '/<span class="filename">' . $suite->file . '</span></div>';
                     }
-                if (sizeof($suite->tests) > 0) {
-                    echo '<div class="informations">';
+                    if (sizeof($suite->tests) > 0) {
+                        echo '<div class="informations">';
                         echo '<div class="block_info"><i class="material-icons">timer</i> <div class="info duration">'.format_duration($suite->duration).'</div></div>';
                         echo '<div class="block_info"><i class="material-icons">assignment</i> <div class="info number_tests"> '.sizeof($suite->tests).'</div></div>';
                         //get number of passed
@@ -220,51 +248,53 @@ echo '</pre>';
                         echo '</div>';
                         echo '</div>';
 
-                    echo '</div>';
-                }
-                echo '</header>';
-                if (sizeof($suite->tests) > 0) {
-                    echo '<div class="test_container">';
-                    foreach ($suite->tests as $test) {
-                        $icon = '';
-                        if ($test->state == 'passed') {
-                            $icon = '<i class="icon material-icons">check_circle</i>';
-                        }
-                        if ($test->state == 'failed') {
-                            $icon = '<i class="icon material-icons">remove_circle</i>';
-                        }
-                        if ($test->state == 'skipped') {
-                            $icon = '<i class="icon material-icons">error</i>';
-                        }
-                        echo '<section class="test_component '.$test->state.'">';
+                        echo '</div>';
+                    }
+                    echo '</header>';
+                    if (sizeof($suite->tests) > 0) {
+                        echo '<div class="test_container">';
+                        foreach ($suite->tests as $test) {
+                            $icon = '';
+                            if ($test->state == 'passed') {
+                                $icon = '<i class="icon material-icons">check_circle</i>';
+                            }
+                            if ($test->state == 'failed') {
+                                $icon = '<i class="icon material-icons">remove_circle</i>';
+                            }
+                            if ($test->state == 'skipped') {
+                                $icon = '<i class="icon material-icons">error</i>';
+                            }
+                            echo '<section class="test_component '.$test->state.'">';
                             echo '<div class="block_test">';
-                                echo '<div id="' . $test->uuid . '" class="test">
+                            echo '<div id="' . $test->uuid . '" class="test">
                                     <div class="test_' . $test->state . '"> ' .$icon.' <span class="test_title" id="' . $test->uuid . '">'.$test->title . '</span></div>';
-                                    echo '<div class="test_duration"><i class="material-icons">timer</i> '.format_duration($test->duration).'</div>';
-                                if ($test->state == 'failed') {
-                                    echo '<div class="test_info error_message">' . $test->error_message . '</div>';
-                                    echo '<div class="test_info stack_trace" id="stack_'.$test->uuid.'">
+                            echo '<div class="test_duration"><i class="material-icons">timer</i> '.format_duration($test->duration).'</div>';
+                            if ($test->state == 'failed') {
+                                echo '<div class="test_info error_message">' . $test->error_message . '</div>';
+                                echo '<div class="test_info stack_trace" id="stack_'.$test->uuid.'">
                                             <div class="error_filename">Origin of this test : <span>'.$suite->campaign.'/'.$suite->file.'</span></div>
                                             <code>' . str_replace('    at', "<br />&nbsp;&nbsp;&nbsp;&nbsp;at", $test->stack_trace) . '</code>
                                             </div>';
-                                }
+                            }
 
-                                echo '</div>'; //uuid
+                            echo '</div>'; //uuid
                             echo '</div>'; //block_test
-                        echo '</section>'; //test_component
+                            echo '</section>'; //test_component
+                        }
+                        echo '</div>';
                     }
-                    echo '</div>';
+                    if (sizeof($suite->suites) > 0) {
+                        loop_through($suite->suites);
+                    }
+                    echo '</section>';
                 }
-                if (sizeof($suite->suites) > 0) {
-                    loop_through($suite->suites);
-                }
-                echo '</section>';
             }
-        }
-        loop_through($suites_container->suites);
-        echo '</section>';
-        echo '</article>';
-        ?>
+            loop_through($suites_container->suites);
+            echo '</section>';
+            echo '</article>';
+            ?>
+        </div>
+
     </div>
 </div>
 <script>
@@ -283,7 +313,7 @@ echo '</pre>';
             })
         }
 
-        let file_titles;
+        /*let file_titles;
         file_titles = document.querySelectorAll(".file_title");
         for (const file_title of file_titles) {
             file_title.addEventListener('click', function() {
@@ -304,9 +334,8 @@ echo '</pre>';
             blocks.forEach(function(block) {
                 block.style.display="block";
             });
-        });
+        });*/
     }
-
 </script>
 </body>
 </html>
