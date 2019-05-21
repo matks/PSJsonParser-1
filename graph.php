@@ -5,13 +5,14 @@ require_once('config.php');
 $start_date = date('Y-m-d', strtotime('-2 weeks'));
 $end_date = date('Y-m-d');
 
-$selected_version = '';
+
 $selected_campaign = '';
 
 //db values
 $execution = new Execution($db);
 //versions
 $versions = $execution->getVersions();
+$selected_version = $versions[0]->version;
 //campaigns
 $suite = new Suite($db);
 $campaigns = $suite->getCampaigns();
@@ -34,7 +35,15 @@ if (isset($get) && sizeof($get) > 0) {
 }
 
 //get the data
+$criteria = [
+    'start_date' => $start_date,
+    'end_date' => $end_date,
+    'version' => $selected_version,
+    'campaign' => $selected_campaign
+];
 
+$execution = new Execution($db);
+$data = $execution->getCustomData($criteria);
 
 ?>
 <html>
@@ -103,11 +112,58 @@ if (isset($get) && sizeof($get) > 0) {
                 </form>
             </div>
         </div>
-
-
-
-
+        <div class="canvas_container">
+            <canvas id="chart" style="width: 100%;" height="400"></canvas>
+        </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+<script>
+    const data = <?php echo json_encode($data); ?>;
+    const labels = Array.from(data, x => new Date(x.start_date).toLocaleDateString('fr-FR'));
+    const passed = Array.from(data, x => Math.round((parseFloat(x.totalPasses)*10000 / (parseFloat(x.totalPasses) + parseFloat(x.totalSkipped) + parseFloat(x.totalFailures))))/100 );
+    const failed = Array.from(data, x => Math.round((parseFloat(x.totalFailures)*10000 / (parseFloat(x.totalPasses) + parseFloat(x.totalSkipped) + parseFloat(x.totalFailures))))/100 );
+    const minValue = Math.min.apply(null, passed) - 20;
+
+    var ctx = document.getElementById('chart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: '% passed',
+                    data: passed,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    fill: 'origin'
+                },
+                {
+                    label: '% failed',
+                    data: failed,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    fill: '-1'
+                }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true,
+                    ticks: {
+                        min: minValue
+                    }
+                }]
+            },
+            legend: {
+                display: true,
+                labels: {
+                    fontColor: 'rgb(255, 99, 132)'
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>

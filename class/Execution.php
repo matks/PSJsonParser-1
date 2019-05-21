@@ -110,7 +110,25 @@ class Execution
     }
 
     function getCustomData($criteria) {
-
+        $req = "e.id, e.ref, e.start_date, e.end_date, e.skipped, e.passes, e.failures,
+            SUM(IF(t.state = 'skipped', 1, 0)) totalSkipped, SUM(IF(t.state = 'passed', 1, 0)) totalPasses, SUM(IF(t.state = 'failed', 1, 0)) totalFailures
+            FROM execution e
+            INNER JOIN suite s ON e.id=s.execution_id
+            INNER JOIN test t ON s.id = t.suite_id
+            WHERE 1=1
+            AND e.version = :version
+            AND e.start_date BETWEEN :start_date AND :end_date
+            ";
+        if (isset($criteria['campaign']) && $criteria['campaign'] != '') {
+            $req .= "
+               AND s.campaign = :campaign
+            ";
+        } else {
+            unset($criteria['campaign']);
+        }
+        $req .= "
+            GROUP BY e.id, e.start_date, e.end_date, e.skipped, e.passes, e.failures";
+        return $this->db->select($req, $criteria);
     }
 
     private function format_datetime($value) {
