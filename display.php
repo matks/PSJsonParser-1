@@ -1,23 +1,6 @@
 <?php
 
-require_once('class/Execution.php');
-require_once('class/Suite.php');
-require_once('class/Test.php');
-require_once('class/Parser.php');
-
-require_once('class/database.php');
-//db properties
-define('DB_TYPE','mysql');
-define('DB_HOST','localhost');
-define('DB_USER','simon');
-define('DB_PASS','phpmyadmin');
-define('DB_NAME','prestashop_results');
-
-try{
-    $db = Database::get();
-} catch (Exception $e) {
-    exit("Error when connecting to database : ".$e->getMessage()."\n");
-}
+require_once('config.php');
 
 if (!isset($_GET['id']) || $_GET['id'] == '') {
     exit();
@@ -60,7 +43,6 @@ foreach($suites as $suite) {
     foreach($tests as $test) {
         if ($test->suite_id == $suite->id) {
             $suite->tests[] = $test;
-            //array_push($suite->tests, $test);
             unset($test);
         }
     }
@@ -69,9 +51,6 @@ foreach($suites as $suite) {
 //get all campaign
 $suite = new Suite($db);
 $campaignsAndFiles = $suite->getAllCampaignsAndFilesByExecutionId($id);
-//echo '<pre>';
-//print_r($campaignsAndFiles);
-//echo '</pre>';
 
 function buildTree(array &$suites, $parentId = null) {
     $branch = array();
@@ -106,14 +85,11 @@ function format_duration($duration) {
     }
 }
 
-//echo '<pre>';
-//print_r($suites_container->suites);
-//echo '</pre>';
-
 ?>
 <html>
 <head>
     <title>Display a report</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
