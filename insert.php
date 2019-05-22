@@ -6,7 +6,14 @@ $directory = 'files/';
 $list = array_diff(scandir($directory), array('..', '.'));
 foreach($list as $file) {
     echo "-- Inserting $file...<br />";
-    $parser->init('1.7.6.x', $directory.$file);
+    $pattern = '/reports_[0-9]{4}-[0-9]{2}-[0-9]{2}-(.*?)\.json/';
+    preg_match($pattern, $file, $matches);
+    if (!isset($matches[1]) || $matches[1] == '') {
+        echo "-- [ERR] VERSION NOT FOUND IN FILENAME $file <br /><br />";
+        continue;
+    }
+    echo "-- Version detected : ".$matches[1]."<br />";
+    $parser->init($matches[1], $directory.$file);
     echo "-- $file inserted !<br /><br />";
 }
 
