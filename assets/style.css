@@ -62,6 +62,16 @@ button:hover {
     padding: 2px;
 }
 
+#left_summary a {
+    text-decoration: none;
+    color: black;
+}
+
+#left_summary a:hover {
+    text-decoration: none;
+    color: black;
+}
+
 #left_summary .campaign {
     font-weight: bold;
     font-size: 12px;
@@ -74,15 +84,12 @@ button:hover {
     margin: 0;
 }
 
-#left_summary .campaign a {
-    text-decoration: none;
+#left_summary .campaign {
     font-weight: bold;
     font-size: 12px;
-    color: black;
-    cursor: pointer;
 }
 
-#left_summary .campaign a:hover {
+#left_summary .campaign:hover {
     text-decoration: none;
     color: black;
 }
@@ -96,6 +103,14 @@ button:hover {
     padding: 2px;
     font-size: 11px;
     margin: 0 0 0 5px;
+}
+
+#left_summary .file.passed {
+    color: rgb(0, 50, 0);
+}
+
+#left_summary .file.failed {
+    color: rgb(50, 0, 0);
 }
 
 #left_summary .file a {
@@ -112,6 +127,12 @@ button:hover {
 #left_summary .file:hover {
     background-color: #4B5AA9;
     color: #eee;
+}
+
+#left_summary .buttons {
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
 }
 
 .navbar {

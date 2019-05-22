@@ -94,6 +94,18 @@ class Execution
         return $this->end_date;
     }
 
+    function getPassed() {
+        return $this->passes;
+    }
+
+    function getSkipped() {
+        return $this->skipped;
+    }
+
+    function getFailed() {
+        return $this->failures;
+    }
+
     function getTotalDuration() {
         $start = strtotime($this->start_date);
         $end = strtotime($this->end_date);

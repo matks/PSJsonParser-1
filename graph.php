@@ -42,8 +42,6 @@ $criteria = [
     'campaign' => $selected_campaign
 ];
 
-var_dump($criteria);
-
 $execution = new Execution($db);
 $data = $execution->getCustomData($criteria);
 
@@ -115,7 +113,7 @@ $data = $execution->getCustomData($criteria);
             </div>
         </div>
         <div class="canvas_container">
-            <canvas id="chart" style="width: 100%;" height="400"></canvas>
+            <canvas id="chart" style="width: 100%;" height="200"></canvas>
         </div>
     </div>
 </div>

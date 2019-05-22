@@ -26,17 +26,6 @@ $suites = $suite->getAllByExecutionId($id);
 $test = new Test($db);
 $tests = $test->getAllByExecutionId($id);
 
-$passed = $failed = $skipped = 0;
-foreach ($tests as $t) {
-    if ($t->state == 'passed') {
-        $passed ++;
-    } elseif ($t->state == 'failed') {
-        $failed ++;
-    } elseif ($t->state == 'skipped') {
-        $skipped ++;
-    }
-}
-
 //add tests in each suite
 foreach($suites as $suite) {
     $suite->tests = [];
@@ -47,10 +36,6 @@ foreach($suites as $suite) {
         }
     }
 }
-
-//get all campaign
-$suite = new Suite($db);
-$campaignsAndFiles = $suite->getAllCampaignsAndFilesByExecutionId($id);
 
 function buildTree(array &$suites, $parentId = null) {
     $branch = array();
@@ -69,6 +54,11 @@ function buildTree(array &$suites, $parentId = null) {
 }
 
 $suites_container = array_shift(array_values(buildTree($suites)));
+
+
+//get all campaigns and files for the summary
+$suite = new Suite($db);
+$campaignsAndFiles = $suite->getAllCampaignsAndFilesByExecutionId($id);
 
 function format_duration($duration) {
     if ($duration != 0) {
@@ -112,17 +102,17 @@ function format_duration($duration) {
                 <i class="material-icons">assignment</i> <span><?php echo sizeof($tests); ?></span>
             </div>
             <div class="summary_block passed_tests" title="Number of passed tests">
-                <i class="material-icons">check_circle_outline</i> <span><?php echo $passed; ?></span>
+                <i class="material-icons">check_circle_outline</i> <span><?php echo $execution->getPassed(); ?></span>
             </div>
-            <?php if ($failed > 0) {
+            <?php if ($execution->getFailed() > 0) {
                 echo '<div class="summary_block failed_tests" title="Number of failed tests">
-                    <i class="material-icons">highlight_off</i> <span>'.$failed.'</span>
+                    <i class="material-icons">highlight_off</i> <span>'.$execution->getFailed().'</span>
                 </div>';
                 }
             ?>
-            <?php if ($skipped > 0) {
+            <?php if ($execution->getSkipped() > 0) {
                 echo '<div class="summary_block skipped_tests" title="Number of skipped tests">
-                    <i class="material-icons">radio_button_checked</i> <span>'.$skipped.'</span>
+                    <i class="material-icons">radio_button_checked</i> <span>'.$execution->getSkipped().'</span>
                 </div>';
             }
             ?>
@@ -143,20 +133,29 @@ function format_duration($duration) {
             </div>
         </div>
         <div id="left_summary">
+            <div class="buttons">
+                <div class="button">
+                    <button id="toggle_failed">Toggle Failed</button>
+                </div>
+            </div>
             <?php
                 if (sizeof($campaignsAndFiles) > 0) {
                     $cur_campaign = $campaignsAndFiles[0]->campaign;
                     echo '<div id="campaign_list">';
-                    echo '<div class="campaign"><a href="#'.$cur_campaign.'">'.$cur_campaign.'</a></div>';
+                    echo '<a href="#'.$cur_campaign.'"><div class="campaign">'.$cur_campaign.'</div></a>';
                     echo '<div class="file_list">';
                     foreach($campaignsAndFiles as $item) {
                         if ($cur_campaign != $item->campaign) {
                             $cur_campaign = $item->campaign;
                             echo '</div>'; //closing the file list
-                            echo '<div class="campaign"><a href="#'.$cur_campaign.'">'.$cur_campaign.'</a></div>';
+                            echo '<a href="#'.$cur_campaign.'"><div class="campaign">'.$cur_campaign.'</div></a>';
                             echo '<div class="file_list">';
                         }
-                        echo '<div class="file"><a href="#'.$item->file.'">'.$item->file.'</a></div>';
+                        $class = 'passed';
+                        if ($item->hasFailed > 0) {
+                            $class = 'failed';
+                        }
+                        echo '<a href="#'.$item->file.'"><div class="file '.$class.'"> '.$item->file.'</div></a>';
                         //listing files in it
                     }
                     echo '</div>'; //closing the file list
@@ -196,7 +195,7 @@ function format_duration($duration) {
                         echo '<section class="container_file" id="file_'.$suite->file.'">';
                         echo '<hr />';
                     }
-                    echo '<section class="suite">';
+                    echo '<section class="suite '.($suite->hasFailures ? 'hasFailed' : '').' '.($suite->hasPasses ? 'hasPassed' : '').'" style="display: block;">';
                     echo '<header class="suite_header">';
                     echo '<h3 class="suite_title">' . $suite->title . '</h3>';
                     if (sizeof($suite->tests) > 0) {
@@ -296,21 +295,21 @@ function format_duration($duration) {
             })
         }
 
-        /*let file_titles;
-        file_titles = document.querySelectorAll(".file_title");
-        for (const file_title of file_titles) {
-            file_title.addEventListener('click', function() {
-                let id = this.id;
-                let stf = document.getElementById('file_'+id).style;
-                if (stf.display != "block") {
-                    stf.display = "block";
+        let toggle_failed_button = document.getElementById('toggle_failed');
+        toggle_failed_button.addEventListener('click', function() {
+            let passed_blocks = document.querySelectorAll("section.suite.hasPassed:not(.hasFailed)");
+            passed_blocks.forEach(function(block) {
+                if (block.style.display !== "block") {
+                    block.style.display="block";
                 } else {
-                    stf.display = "none";
+                    block.style.display="none";
                 }
-            })
-        }
+            });
+        });
 
-        let fold_button;
+
+
+        /*let fold_button;
         fold_button = document.getElementById('fold');
         fold_button.addEventListener('click', function() {
             let blocks = document.querySelectorAll('.container_file');

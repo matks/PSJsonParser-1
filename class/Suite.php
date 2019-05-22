@@ -146,7 +146,18 @@ class Suite
 
     function getAllCampaignsAndFilesByExecutionId($execution_id)
     {
-        return $this->db->select("campaign, file FROM suite WHERE execution_id = :execution_id AND campaign IS NOT NULL GROUP BY campaign, file ORDER BY campaign, file;", ['execution_id' => $execution_id]);
+        return $this->db->select(" 
+                s.campaign, 
+                SUM(IF(t.state = 'skipped', 1, 0)) hasSkipped, 
+                SUM(IF(t.state = 'failed', 1, 0)) hasFailed, 
+                SUM(IF(t.state = 'passed', 1, 0)) hasPassed, 
+                file 
+            FROM suite s
+            INNER JOIN test t ON t.suite_id = s.id
+            WHERE s.execution_id = :execution_id
+            AND s.campaign IS NOT NULL 
+            GROUP BY s.campaign, s.file 
+            ORDER BY s.campaign, s.file", ['execution_id' => $execution_id]);
     }
 
     private function extractNames() {
