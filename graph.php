@@ -37,10 +37,12 @@ if (isset($get) && sizeof($get) > 0) {
 //get the data
 $criteria = [
     'start_date' => $start_date,
-    'end_date' => $end_date,
+    'end_date' => date('Y-m-d', strtotime($end_date) + 3600*24),
     'version' => $selected_version,
     'campaign' => $selected_campaign
 ];
+
+var_dump($criteria);
 
 $execution = new Execution($db);
 $data = $execution->getCustomData($criteria);
