@@ -6,12 +6,6 @@ if (!isset($_GET['id']) || $_GET['id'] == '') {
     exit();
 }
 
-/*
- *
- * Can't this be in a class ? ¯\_(ツ)_/¯
- *
- */
-
 $id = trim($_GET['id']);
 try {
     $execution = new Execution($db);
@@ -313,7 +307,7 @@ function format_duration($duration) {
         let test_blocks;
         test_blocks = document.querySelectorAll(".test_title");
         for (const test_block of test_blocks) {
-            test_block.addEventListener('click', function(event, item, t) {
+            test_block.addEventListener('click', function() {
                 let id = this.id;
                 let stt = document.getElementById('stack_'+id).style;
                 if (stt.display != "block") {
