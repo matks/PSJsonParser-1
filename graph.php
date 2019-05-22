@@ -48,7 +48,7 @@ $data = $execution->getCustomData($criteria);
 ?>
 <html>
 <head>
-    <title>Stats</title>
+    <title>Graph and statistics</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
@@ -58,6 +58,14 @@ $data = $execution->getCustomData($criteria);
 <body>
 <div class="navbar">
     <div class="navbar_container">
+        <div class="links">
+            <a class="link" href="<?php echo BASEURL; ?>" target="_blank">
+                <i class="material-icons">home</i> Home
+            </a>
+            <a class="link" href="<?php echo BASEURL; ?>graph.php" target="_blank">
+                <i class="material-icons">timeline</i> Graph
+            </a>
+        </div>
         <div class="title">
             <h2>Graph reporting</h2>
         </div>

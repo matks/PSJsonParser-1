@@ -81,7 +81,7 @@ function format_duration($duration) {
 ?>
 <html>
 <head>
-    <title>Display a report</title>
+    <title>Report display</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
@@ -91,6 +91,14 @@ function format_duration($duration) {
 <body>
 <div class="navbar">
     <div class="navbar_container">
+        <div class="links">
+            <a class="link" href="<?php echo BASEURL; ?>" target="_blank">
+                <i class="material-icons">home</i> Home
+            </a>
+            <a class="link" href="<?php echo BASEURL; ?>graph.php" target="_blank">
+                <i class="material-icons">timeline</i> Graph
+            </a>
+        </div>
         <div class="title">
             <h2>Report <?php echo $execution->getRef(); ?></h2>
         </div>
@@ -179,7 +187,7 @@ function format_duration($duration) {
                 <div class="additional_infos">
                     <h4>Additional Info</h4>
                     <div class="info">
-                        <span>Invalid Session ID: </span> <?php echo count($invalid_session_id); ?>
+                        <span><i class="material-icons">bug_report</i> Invalid Session ID: </span> <?php echo count($invalid_session_id); ?>
                     </div>
                 </div>
             </div>

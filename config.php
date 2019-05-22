@@ -14,6 +14,8 @@ define('DB_USER','simon');
 define('DB_PASS','phpmyadmin');
 define('DB_NAME','prestashop_results');
 
+define('BASEURL', '/json/');
+
 try{
     $db = Database::get();
 } catch (Exception $e) {
