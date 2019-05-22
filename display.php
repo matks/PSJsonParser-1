@@ -143,19 +143,19 @@ function format_duration($duration) {
                 </div>
             </div>
         </div>
-        <div id="left_summary">
-            <div class="summary_block">
+        <div id="left_navigation">
+            <div class="navigation_block">
                 <h4>Options</h4>
                 <div class="buttons">
                     <div class="button">
-                        <button id="toggle_failed">Hide Passed Tests</button>
+                        <button id="toggle_failed" data-state="shown">Hide Passed Tests</button>
                     </div>
                 </div>
             </div>
             <hr>
-            <div class="summary_block">
+            <div class="navigation_block">
                 <h4>Navigation</h4>
-                <div class="summary">
+                <div class="navigation">
                     <?php
                     if (sizeof($campaignsAndFiles) > 0) {
                         $cur_campaign = $campaignsAndFiles[0]->campaign;
@@ -183,11 +183,11 @@ function format_duration($duration) {
                 </div>
             </div>
             <hr>
-            <div class="summary_block">
+            <div class="navigation_block">
                 <div class="additional_infos">
                     <h4>Additional Info</h4>
                     <div class="info">
-                        <span><i class="material-icons">bug_report</i> Invalid Session ID count: </span> <?php echo count($invalid_session_id); ?>
+                        <span><i class="material-icons">bug_report</i> Invalid Session ID bugs: </span> <?php echo count($invalid_session_id); ?>
                     </div>
                 </div>
             </div>
@@ -326,16 +326,34 @@ function format_duration($duration) {
 
         let toggle_failed_button = document.getElementById('toggle_failed');
         toggle_failed_button.addEventListener('click', function() {
-            let passed_blocks = document.querySelectorAll("section.suite.hasPassed:not(.hasFailed)");
-            passed_blocks.forEach(function(block) {
-                if (block.style.display !== "block") {
-                    block.style.display="block";
-                    toggle_failed_button.innerHTML = 'Hide Passed Tests';
-                } else {
-                    block.style.display="none";
-                    toggle_failed_button.innerHTML = 'Show Passed Tests';
-                }
-            });
+            let state = toggle_failed_button.dataset.state;
+            if (state == 'shown') {
+                //let's hide it
+                toggle_failed_button.innerHTML = 'Show Passed Tests';
+                let passed_suites = document.querySelectorAll("section.suite.hasPassed:not(.hasFailed)");
+                passed_suites.forEach(function (suite) {
+                    suite.style.display = "none";
+                });
+                //hide tests
+                let passed_tests = document.querySelectorAll("section.test_component.passed");
+                passed_tests.forEach(function (block) {
+                    block.style.display = "none";
+                });
+                toggle_failed_button.dataset.state = 'hidden';
+            } else {
+                //let's show it
+                toggle_failed_button.innerHTML = 'Hide Passed Tests';
+                let passed_suites = document.querySelectorAll("section.suite.hasPassed:not(.hasFailed)");
+                passed_suites.forEach(function (suite) {
+                    suite.style.display = "block";
+                });
+                //hide tests
+                let passed_tests = document.querySelectorAll("section.test_component.passed");
+                passed_tests.forEach(function (block) {
+                    block.style.display = "block";
+                });
+                toggle_failed_button.dataset.state = 'shown';
+            }
         });
     }
 </script>

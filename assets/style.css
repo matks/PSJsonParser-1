@@ -37,7 +37,7 @@ button:hover {
     position: relative;
 }
 
-#left_summary {
+#left_navigation {
     float: left;
     width: 250px;
     position: sticky;
@@ -45,37 +45,37 @@ button:hover {
     bottom: 0;
 }
 
-#left_summary .summary_block {
+#left_navigation .navigation_block {
     padding: 5px;
 }
 
-#left_summary .summary_block h4 {
+#left_navigation .navigation_block h4 {
     text-align: center;
     margin: 5px 0;
 }
 
-#left_summary .summary {
-    max-height: 300px;
+#left_navigation .navigation {
+    max-height: 50vh;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-#left_summary .additional_infos {
+#left_navigation .additional_infos {
     margin: 10px 0;
 }
 
-#left_summary .additional_infos .info {
+#left_navigation .additional_infos .info {
     padding-left: 5px;
     font-size: 14px;
     line-height: 14px;
 }
 
-#left_summary .additional_infos .info i {
+#left_navigation .additional_infos .info i {
     font-size: 16px;
     color: red
 }
 
-#left_summary .additional_infos .info span {
+#left_navigation .additional_infos .info span {
     font-weight: bold;
 }
 
@@ -83,7 +83,7 @@ button:hover {
     margin-left: 255px;
 }
 
-#left_summary .campaign, #left_summary .file {
+#left_navigation .campaign, #left_navigation .file {
     margin: 5px;
     color: black;
     font-weight: normal;
@@ -92,74 +92,74 @@ button:hover {
     padding: 2px;
 }
 
-#left_summary a {
+#left_navigation a {
     text-decoration: none;
     color: black;
 }
 
-#left_summary a:hover {
+#left_navigation a:hover {
     text-decoration: none;
     color: black;
 }
 
-#left_summary .campaign {
+#left_navigation .campaign {
     font-weight: bold;
     font-size: 12px;
     margin: 8px 0 0 0;
 }
 
-#left_summary .campaign:first-child {
+#left_navigation .campaign:first-child {
     font-weight: bold;
     font-size: 12px;
     margin: 0;
 }
 
-#left_summary .campaign {
+#left_navigation .campaign {
     font-weight: bold;
     font-size: 12px;
 }
 
-#left_summary .campaign:hover {
+#left_navigation .campaign:hover {
     text-decoration: none;
     color: black;
 }
 
-#left_summary .campaign:hover {
+#left_navigation .campaign:hover {
     background-color: #4B5AA9;
     color: #eee;
 }
 
-#left_summary .file {
+#left_navigation .file {
     padding: 2px;
     font-size: 11px;
     margin: 0 0 0 5px;
 }
 
-#left_summary .file.passed {
+#left_navigation .file.passed {
     color: rgb(0, 50, 0);
 }
 
-#left_summary .file.failed {
+#left_navigation .file.failed {
     color: rgb(50, 0, 0);
 }
 
-#left_summary .file a {
+#left_navigation .file a {
     text-decoration: none;
     font-size: 11px;
     color: black;
 }
 
-#left_summary .file a:hover {
+#left_navigation .file a:hover {
     text-decoration: none;
     color: black;
 }
 
-#left_summary .file:hover {
+#left_navigation .file:hover {
     background-color: #4B5AA9;
     color: #eee;
 }
 
-#left_summary .buttons {
+#left_navigation .buttons {
     margin: 5px;
     padding: 5px;
     text-align: center;
@@ -190,6 +190,7 @@ button:hover {
     font-size: 16px;
     line-height: 16px;
     margin: 0 10px;
+    position: absolute;
 }
 
 .navbar .navbar_container .links a.link {
@@ -272,7 +273,7 @@ h3.suite_title {
 }
 
 .suite_header {
-    padding: 10px 10px 0 20px;
+    padding: 0 10px 0 20px;
 }
 
 .campaign {
@@ -413,7 +414,7 @@ h3.suite_title {
 .test .test_duration {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 3px;
     color: grey;
     font-size: 14px;
     line-height: 14px;
@@ -591,14 +592,23 @@ table.table tbody  {
 }
 
 table.table tbody tr td {
-    padding: 15px 0;
+    padding: 5px 0;
     text-align: center;
     border-bottom: 1px solid #d8d8d8;
+    line-height: 30px;
+}
+
+table.table tbody tr td a i {
+    line-height: 30px;
 }
 
 tr td .content_block {
     display: inline-block;
-    margin: 2px 5px
+    margin: 2px 5px;
+}
+
+tr td .content_block i {
+    line-height: 30px;
 }
 
 tr td .content_block.count_passed {
