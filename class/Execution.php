@@ -111,6 +111,10 @@ class Execution
         return $this->failures;
     }
 
+    function getVersion() {
+        return $this->version;
+    }
+
     function getTotalDuration() {
         $start = strtotime($this->start_date);
         $end = strtotime($this->end_date);
