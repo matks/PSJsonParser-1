@@ -573,6 +573,8 @@ table.table {
     width: 100%;
     background-color: #fff;
     border-spacing: 0;
+    padding: 0;
+    margin: 10px 0 0 0;
 }
 
 table.table thead {
@@ -630,4 +632,25 @@ tr td a {
 tr td a:hover {
     color: black;
     text-decoration: underline;
+}
+
+span.label {
+    border: 1px solid #332924;
+    padding: 5px 15px;
+    border-radius: 10px;
+    background-color: grey;
+    color: white;
+    margin: 5px 10px;
+    cursor: pointer;
+    box-shadow: 0px 5px 8px 0px rgba(55,71,79,1);
+}
+
+span.label[data-active=true] {
+    background-color: #37474f;
+    color: white;
+}
+
+span.label:hover {
+    background-color: #6D8C9B;/*#5B7582;*/
+    color:white;
 }

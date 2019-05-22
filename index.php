@@ -5,6 +5,10 @@ require_once('config.php');
 $execution = new Execution($db);
 $execution_list = $execution->getAllInformation();
 
+$versions = $execution->getVersions();
+
+var_dump($versions);
+
 ?>
 <html>
 <head>
@@ -30,6 +34,19 @@ $execution_list = $execution->getAllInformation();
 </div>
 <div class="container">
     <div class="details">
+        <div class="options">
+            <div class="blocks_container">
+                <div class="block">
+                <?php
+                if (sizeof($versions) > 1) {
+                    foreach($versions as $version) {
+                        echo '<span class="label filter_version active" data-for="version_'.str_replace('.', '', $version->version).'" data-active="true">'.$version->version.'</span>';
+                    }
+                }
+                ?>
+                </div>
+            </div>
+        </div>
         <div class="table_container">
             <table class="table">
                 <thead>
@@ -58,7 +75,7 @@ $execution_list = $execution->getAllInformation();
                         if ($elem->getSkipped() > 0) {
                             $content .= '<div class="content_block count_skipped" title="Tests skipped"><i class="material-icons">radio_button_checked</i> '.$elem->getSkipped().'</div>';
                         }
-                        echo '<tr>';
+                        echo '<tr class="version_'.str_replace('.', '', $elem->getVersion()).'">';
                         echo '<td><a href="display.php?id='.$elem->getId().'" target="_blank"><i class="material-icons">visibility</i> Show report</a></td>';
                         echo '<td>'.date('d/m/Y', strtotime($elem->getStartDate())).'</td>';
                         echo '<td>'.$elem->getVersion().'</td>';
@@ -76,5 +93,36 @@ $execution_list = $execution->getAllInformation();
         </div>
     </div>
 </div>
+<script>
+    window.onload = function() {
+        let labels;
+        labels = document.querySelectorAll(".filter_version");
+        for (const label of labels) {
+            label.addEventListener('click', function() {
+                let lbl = this;
+                let version = lbl.dataset.for;
+                let list_tr = document.querySelectorAll("table.table tbody tr."+version);
+                list_tr.forEach(function (tr) {
+                    if (hasClass(tr, version)) {
+                        if (lbl.dataset.active === 'true') {
+                            tr.style.display = "none";
+                        } else {
+                            tr.style.display = "";
+                        }
+                    }
+                });
+                if (lbl.dataset.active === 'true') {
+                    lbl.dataset.active = 'false';
+                } else {
+                    lbl.dataset.active = 'true';
+                }
+            })
+        }
+    };
+
+    function hasClass(ele,cls) {
+        return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+    }
+</script>
 </body>
 </html>
