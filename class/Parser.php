@@ -22,10 +22,10 @@ class Parser
         $suite = new Suite($this->db);
         $suite->populate($this->file->suites)->setParentId(null);
 
-        $this->loop_through($suite);
+        $this->loopThrough($suite);
     }
 
-    private function loop_through($suite) {
+    private function loopThrough($suite) {
 
 
         if ($suite->getCampaign() != $this->suite_campaignname) {
@@ -52,7 +52,7 @@ class Parser
                 foreach($suite->getChildren() as $s) {
                     $cur_suite = new Suite($this->db);
                     $cur_suite->populate($s)->setParentId(($suite->getId()));
-                    $this->loop_through($cur_suite);
+                    $this->loopThrough($cur_suite);
                 }
             }
         } else {

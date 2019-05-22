@@ -19,10 +19,7 @@ $execution_list = $execution->getAllInformation();
 <div class="navbar">
     <div class="navbar_container">
         <div class="links">
-            <a class="link" href="<?php echo BASEURL; ?>" target="_blank">
-                <i class="material-icons">home</i> Home
-            </a>
-            <a class="link" href="<?php echo BASEURL; ?>graph.php" target="_blank">
+            <a class="link" href="<?php echo BASEURL; ?>graph.php">
                 <i class="material-icons">timeline</i> Graph
             </a>
         </div>

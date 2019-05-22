@@ -59,10 +59,10 @@ $data = $execution->getCustomData($criteria);
 <div class="navbar">
     <div class="navbar_container">
         <div class="links">
-            <a class="link" href="<?php echo BASEURL; ?>" target="_blank">
+            <a class="link" href="<?php echo BASEURL; ?>">
                 <i class="material-icons">home</i> Home
             </a>
-            <a class="link" href="<?php echo BASEURL; ?>graph.php" target="_blank">
+            <a class="link" href="<?php echo BASEURL; ?>graph.php">
                 <i class="material-icons">timeline</i> Graph
             </a>
         </div>
@@ -121,33 +121,34 @@ $data = $execution->getCustomData($criteria);
             </div>
         </div>
         <div class="canvas_container">
-            <canvas id="chart" style="width: 100%;" height="200"></canvas>
+            <canvas id="chart" style="width: 100%;" height="250"></canvas>
         </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
 <script>
     const data = <?php echo json_encode($data); ?>;
-    const labels = Array.from(data, x => new Date(x.start_date).toLocaleDateString('fr-FR'));
-    const passed = Array.from(data, x => Math.round((parseFloat(x.totalPasses)*10000 / (parseFloat(x.totalPasses) + parseFloat(x.totalSkipped) + parseFloat(x.totalFailures))))/100 );
-    const failed = Array.from(data, x => Math.round((parseFloat(x.totalFailures)*10000 / (parseFloat(x.totalPasses) + parseFloat(x.totalSkipped) + parseFloat(x.totalFailures))))/100 );
-    const minValue = Math.min.apply(null, passed) - 20;
+    const labels = Array.from(data, x => x.custom_start_date);
+    const passed_percent = Array.from(data, x => Math.round((parseFloat(x.totalPasses)*10000 / (parseFloat(x.totalPasses) + parseFloat(x.totalSkipped) + parseFloat(x.totalFailures))))/100 );
+    const failed_percent = Array.from(data, x => Math.round((parseFloat(x.totalFailures)*10000 / (parseFloat(x.totalPasses) + parseFloat(x.totalSkipped) + parseFloat(x.totalFailures))))/100 );
+    const minValue_percent = Math.min.apply(null, passed_percent) - 20;
 
-    var ctx = document.getElementById('chart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
+    var canvas = document.getElementById('chart');
+    var ctx = canvas.getContext('2d');
+    var testChart = new Chart(ctx, {
+        type: 'bar',
         data: {
             labels: labels,
             datasets: [
                 {
                     label: '% passed',
-                    data: passed,
+                    data: passed_percent,
                     backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     fill: 'origin'
                 },
                 {
                     label: '% failed',
-                    data: failed,
+                    data: failed_percent,
                     backgroundColor: 'rgba(255, 99, 132, 0.6)',
                     fill: '-1'
                 }]
@@ -160,7 +161,7 @@ $data = $execution->getCustomData($criteria);
                 yAxes: [{
                     stacked: true,
                     ticks: {
-                        min: minValue
+                        min: minValue_percent
                     }
                 }]
             },
@@ -172,6 +173,16 @@ $data = $execution->getCustomData($criteria);
             }
         }
     });
+
+    canvas.onclick = function(e) {
+        var slice = testChart.getElementAtEvent(e);
+        if (!slice.length) return; // return if not clicked on slice
+        var label = slice[0]._model.label;
+        let item = data.find(function(element) {
+            return element.custom_start_date == label;
+        });
+        window.open('<?php echo BASEURL; ?>display.php?id='+item.id, '_blank');
+    }
 </script>
 </body>
 </html>

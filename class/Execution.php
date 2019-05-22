@@ -131,7 +131,7 @@ class Execution
     }
 
     function getCustomData($criteria) {
-        $req = "e.id, e.ref, e.start_date, e.end_date, e.skipped, e.passes, e.failures,
+        $req = "e.id, e.ref, e.start_date, DATE(e.start_date) custom_start_date,e.end_date, e.skipped, e.passes, e.failures,
             SUM(IF(t.state = 'skipped', 1, 0)) totalSkipped, SUM(IF(t.state = 'passed', 1, 0)) totalPasses, SUM(IF(t.state = 'failed', 1, 0)) totalFailures
             FROM execution e
             INNER JOIN suite s ON e.id=s.execution_id
