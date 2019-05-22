@@ -75,6 +75,11 @@ class Execution
         return $this;
     }
 
+    function getAllInformation()
+    {
+        return $this->db->select('id, ref, start_date, end_date, duration, version, suites, tests, skipped, passes, failures FROM execution ORDER BY start_date DESC LIMIT 50;');
+    }
+
     /**
      * @return mixed
      */
