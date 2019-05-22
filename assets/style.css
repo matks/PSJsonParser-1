@@ -40,13 +40,37 @@ button:hover {
 #left_summary {
     float: left;
     width: 250px;
-    padding: 5px;
     position: sticky;
     top: 60px;
     bottom: 0;
-    max-height: calc(90vh - 90px);
+}
+
+#left_summary .summary_block {
+    padding: 5px;
+}
+
+#left_summary .summary_block h4 {
+    text-align: center;
+    margin: 5px 0;
+}
+
+#left_summary .summary {
+    max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+#left_summary .additional_infos {
+    margin: 10px 0;
+}
+
+#left_summary .additional_infos .info {
+    padding-left: 5px;
+    font-size: 14px;
+}
+
+#left_summary .additional_infos .info span {
+    font-weight: bold;
 }
 
 #content {
@@ -167,7 +191,7 @@ button:hover {
     font-size: 30px;
 }
 
-.navbar .summary {
+.navbar .recap {
     position: absolute;
     right: 0;
     top: 0;
@@ -176,7 +200,7 @@ button:hover {
     padding-top: 15px;
 }
 
-.summary_block {
+.recap_block {
     min-width: 50px;
     height: 60px;
     display: inline-block;
@@ -185,15 +209,15 @@ button:hover {
     margin: 0 10px;
 }
 
-.summary_block.passed_tests {
+.recap_block.passed_tests {
     color: #48E57C;
 }
 
-.summary_block.failed_tests {
+.recap_block.failed_tests {
     color: #E54848;
 }
 
-.summary_block.skipped_tests {
+.recap_block.skipped_tests {
     color: #C6C6C6;
 }
 
@@ -412,6 +436,7 @@ code {
 hr {
     width: 90%;
     border-top-color: #37474f;
+    margin: 3px 0;
 }
 
 .metric_container {

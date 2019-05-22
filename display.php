@@ -60,6 +60,9 @@ $suites_container = array_shift(array_values(buildTree($suites)));
 $suite = new Suite($db);
 $campaignsAndFiles = $suite->getAllCampaignsAndFilesByExecutionId($id);
 
+$test = new Test($db);
+$invalid_session_id = $test->getSubset($id, 'invalid session id');
+
 function format_duration($duration) {
     if ($duration != 0) {
         $secs = round($duration/1000, 2);
@@ -91,27 +94,27 @@ function format_duration($duration) {
         <div class="title">
             <h2>Report <?php echo $execution->getRef(); ?></h2>
         </div>
-        <div class="summary">
-            <div class="summary_block suites" title="Execution time">
+        <div class="recap">
+            <div class="recap_block suites" title="Execution time">
                 <i class="material-icons">timer</i> <span><?php echo $execution->getTotalDuration(); ?></span>
             </div>
-            <div class="summary_block suites" title="Number of suites">
+            <div class="recap_block suites" title="Number of suites">
                 <i class="material-icons">library_books</i> <span><?php echo sizeof($suites)-1; ?></span>
             </div>
-            <div class="summary_block tests" title="Number of tests">
+            <div class="recap_block tests" title="Number of tests">
                 <i class="material-icons">assignment</i> <span><?php echo sizeof($tests); ?></span>
             </div>
-            <div class="summary_block passed_tests" title="Number of passed tests">
+            <div class="recap_block passed_tests" title="Number of passed tests">
                 <i class="material-icons">check_circle_outline</i> <span><?php echo $execution->getPassed(); ?></span>
             </div>
             <?php if ($execution->getFailed() > 0) {
-                echo '<div class="summary_block failed_tests" title="Number of failed tests">
+                echo '<div class="recap_block failed_tests" title="Number of failed tests">
                     <i class="material-icons">highlight_off</i> <span>'.$execution->getFailed().'</span>
                 </div>';
                 }
             ?>
             <?php if ($execution->getSkipped() > 0) {
-                echo '<div class="summary_block skipped_tests" title="Number of skipped tests">
+                echo '<div class="recap_block skipped_tests" title="Number of skipped tests">
                     <i class="material-icons">radio_button_checked</i> <span>'.$execution->getSkipped().'</span>
                 </div>';
             }
@@ -133,35 +136,53 @@ function format_duration($duration) {
             </div>
         </div>
         <div id="left_summary">
-            <div class="buttons">
-                <div class="button">
-                    <button id="toggle_failed">Toggle Failed</button>
+            <div class="summary_block">
+                <h4>Options</h4>
+                <div class="buttons">
+                    <div class="button">
+                        <button id="toggle_failed">Hide Passed Tests</button>
+                    </div>
                 </div>
             </div>
-            <?php
-                if (sizeof($campaignsAndFiles) > 0) {
-                    $cur_campaign = $campaignsAndFiles[0]->campaign;
-                    echo '<div id="campaign_list">';
-                    echo '<a href="#'.$cur_campaign.'"><div class="campaign">'.$cur_campaign.'</div></a>';
-                    echo '<div class="file_list">';
-                    foreach($campaignsAndFiles as $item) {
-                        if ($cur_campaign != $item->campaign) {
-                            $cur_campaign = $item->campaign;
-                            echo '</div>'; //closing the file list
-                            echo '<a href="#'.$cur_campaign.'"><div class="campaign">'.$cur_campaign.'</div></a>';
-                            echo '<div class="file_list">';
+            <hr>
+            <div class="summary_block">
+                <h4>Navigation</h4>
+                <div class="summary">
+                    <?php
+                    if (sizeof($campaignsAndFiles) > 0) {
+                        $cur_campaign = $campaignsAndFiles[0]->campaign;
+                        echo '<div id="campaign_list">';
+                        echo '<a href="#'.$cur_campaign.'"><div class="campaign">'.$cur_campaign.'</div></a>';
+                        echo '<div class="file_list">';
+                        foreach($campaignsAndFiles as $item) {
+                            if ($cur_campaign != $item->campaign) {
+                                $cur_campaign = $item->campaign;
+                                echo '</div>'; //closing the file list
+                                echo '<a href="#'.$cur_campaign.'"><div class="campaign">'.$cur_campaign.'</div></a>';
+                                echo '<div class="file_list">';
+                            }
+                            $class = 'passed';
+                            if ($item->hasFailed > 0) {
+                                $class = 'failed';
+                            }
+                            echo '<a href="#'.$item->file.'"><div class="file '.$class.'"> '.$item->file.'</div></a>';
+                            //listing files in it
                         }
-                        $class = 'passed';
-                        if ($item->hasFailed > 0) {
-                            $class = 'failed';
-                        }
-                        echo '<a href="#'.$item->file.'"><div class="file '.$class.'"> '.$item->file.'</div></a>';
-                        //listing files in it
+                        echo '</div>'; //closing the file list
+                        echo '</div>'; //closing the campaign list
                     }
-                    echo '</div>'; //closing the file list
-                    echo '</div>'; //closing the campaign list
-                }
-            ?>
+                    ?>
+                </div>
+            </div>
+            <hr>
+            <div class="summary_block">
+                <div class="additional_infos">
+                    <h4>Additional Info</h4>
+                    <div class="info">
+                        <span>Invalid Session ID: </span> <?php echo count($invalid_session_id); ?>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="content">
             <?php
@@ -301,22 +322,13 @@ function format_duration($duration) {
             passed_blocks.forEach(function(block) {
                 if (block.style.display !== "block") {
                     block.style.display="block";
+                    toggle_failed_button.innerHTML = 'Hide Passed Tests';
                 } else {
                     block.style.display="none";
+                    toggle_failed_button.innerHTML = 'Show Passed Tests';
                 }
             });
         });
-
-
-
-        /*let fold_button;
-        fold_button = document.getElementById('fold');
-        fold_button.addEventListener('click', function() {
-            let blocks = document.querySelectorAll('.container_file');
-            blocks.forEach(function(block) {
-                block.style.display="block";
-            });
-        });*/
     }
 </script>
 </body>

@@ -95,6 +95,11 @@ class Test
 
     }
 
+    function getSubset($execution_id, $criteria)
+    {
+        return $this->db->select('* FROM test t INNER JOIN suite s ON s.id=t.suite_id WHERE s.execution_id=:execution_id AND error_message LIKE :criteria;', ['execution_id' => $execution_id, 'criteria' => '%'.$criteria.'%']);
+    }
+
     private function sanitize($text) {
         $StrArr = str_split($text);
         $NewStr = '';
