@@ -187,7 +187,7 @@ function format_duration($duration) {
                 <div class="additional_infos">
                     <h4>Additional Info</h4>
                     <div class="info">
-                        <span><i class="material-icons">bug_report</i> Invalid Session ID: </span> <?php echo count($invalid_session_id); ?>
+                        <span><i class="material-icons">bug_report</i> Invalid Session ID count: </span> <?php echo count($invalid_session_id); ?>
                     </div>
                 </div>
             </div>
