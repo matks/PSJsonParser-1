@@ -96,11 +96,8 @@ class Layout
         //place the content of the rendered view into the layout
         $this->layoutFileContent = str_replace('{{CONTENT}}', $view_render, $this->layoutFileContent);
 
-        //buffers content
-        ob_start();
+        //buffering is handled by the caching system
         echo $this->layoutFileContent;
-        //renders content
-        ob_end_flush();
 
     }
 }

@@ -7,7 +7,7 @@ class Logger
     static function log($log, $level='log') {
         if($log != '') {
             $fh = fopen(self::$log_file, "a");
-            fwrite($fh,date('Y-m-d H:i:s')."\t[$level] $log\n\n");
+            fwrite($fh,date('Y-m-d H:i:s')."\t[$level] $log\n");
             fclose($fh);
         }
     }
