@@ -1,6 +1,6 @@
 <?php
 
-class Test
+class Test extends Model
 {
     private $uuid;
     private $id;
@@ -13,16 +13,6 @@ class Test
         'estack' => null
     ];
     private $suite_id = null;
-    private $db;
-
-    /**
-     * Test constructor.
-     * @param $db
-     */
-    function __construct($db) {
-        $this->db = $db;
-        return $this;
-    }
 
     /**
      * @param $test
@@ -35,13 +25,13 @@ class Test
         $this->duration     = $test->duration;
 
         if (isset($test->err->message)) {
-            $this->err['message']   = $this->sanitize($test->err->message);
+            $this->err['message']   = Tools::sanitize($test->err->message);
         }
         if (isset($test->err->diff)) {
-            $this->err['diff']      = $this->sanitize($test->err->diff);
+            $this->err['diff']      = Tools::sanitize($test->err->diff);
         }
         if (isset($test->err->estack)) {
-            $this->err['estack']    = $this->sanitize($test->err->estack);
+            $this->err['estack']    = Tools::sanitize($test->err->estack);
         }
         return $this;
     }
@@ -98,23 +88,6 @@ class Test
     function getSubset($execution_id, $criteria)
     {
         return $this->db->select('* FROM test t INNER JOIN suite s ON s.id=t.suite_id WHERE s.execution_id=:execution_id AND error_message LIKE :criteria;', ['execution_id' => $execution_id, 'criteria' => '%'.$criteria.'%']);
-    }
-
-    private function sanitize($text) {
-        $StrArr = str_split($text);
-        $NewStr = '';
-        foreach ($StrArr as $Char) {
-            $CharNo = ord($Char);
-            if ($CharNo == 163) { $NewStr .= $Char; continue; } // keep £
-            if ($CharNo > 31 && $CharNo < 127) {
-                $NewStr .= $Char;
-            }
-        }
-        return $NewStr;
-    }
-
-    private function checkExistence($uuid, $suite_id) {
-        return true;//$this->db->select("id FROM test t INNER JOIN suite s ON s.id=t.suite_id INNER JOIN WHERE t.uuid=:uuid AND ");
     }
 
 }

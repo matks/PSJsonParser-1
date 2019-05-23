@@ -1,6 +1,6 @@
 <?php
 
-class Execution
+class Execution extends Model
 {
     private $id;
     private $ref;
@@ -14,16 +14,6 @@ class Execution
     private $skipped;
     private $passes;
     private $failures;
-    private $db;
-
-    /**
-     * Execution constructor.
-     * @param $db
-     */
-    function __construct($db) {
-        $this->db = $db;
-        return $this;
-    }
 
     /**
      * @param $version

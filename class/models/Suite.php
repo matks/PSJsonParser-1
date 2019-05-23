@@ -1,6 +1,6 @@
 <?php
 
-class Suite
+class Suite extends Model
 {
 
     private $execution_id;
@@ -23,17 +23,6 @@ class Suite
     private $hasTests;
     private $parent_id = null;
 
-    private $db;
-
-    /**
-     * Suite constructor.
-     * @param $db
-     */
-    function __construct($db) {
-        $this->db = $db;
-        return $this;
-    }
-
     /**
      * @param $suite
      * @return $this
@@ -53,7 +42,8 @@ class Suite
         $this->totalFailures = $suite->totalFailures;
         $this->hasSuites = $suite->hasSuites;
         $this->hasTests = $suite->hasTests;
-        $this->extractNames();
+        $this->file = Tools::extractNames($this->filename, 'file');
+        $this->campaign = Tools::extractNames($this->filename, 'campaign');
         return $this;
     }
 
@@ -158,17 +148,6 @@ class Suite
             AND s.campaign IS NOT NULL 
             GROUP BY s.campaign, s.file 
             ORDER BY s.campaign, s.file", ['execution_id' => $execution_id]);
-    }
-
-    private function extractNames() {
-        if (strlen($this->filename) > 0) {
-            $pattern = '/\/full\/(.*?)\/(.*)/';
-            preg_match($pattern, $this->filename, $matches);
-            $this->campaign = isset($matches[1]) ? $matches[1] : "";
-            $this->file = isset($matches[2]) ? $matches[2] : "";
-        } else {
-            return "";
-        }
     }
 
     function getCampaigns() {

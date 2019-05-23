@@ -1,16 +1,11 @@
 <?php
 
-class Parser
+class Parser extends Model
 {
-    private $db;
     private $execution;
     private $file;
     private $suite_filename = '';
     private $suite_campaignname = '';
-
-    function __construct($db) {
-        $this->db = $db;
-    }
 
     function init($version, $file) {
         $this->file = json_decode(file_get_contents($file));
