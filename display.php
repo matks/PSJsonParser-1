@@ -7,6 +7,9 @@ if (!isset($_GET['id']) || $_GET['id'] == '') {
 }
 
 $id = trim($_GET['id']);
+//does the cache exists for this one ?
+$cache = new Cache(md5('display_'.$id));
+
 try {
     $execution = new Execution($db);
     $execution->populate($id);
@@ -212,3 +215,4 @@ $view->set(['content' => $content]);
 $layout->setView($view);
 $layout->render();
 
+$cache->store();

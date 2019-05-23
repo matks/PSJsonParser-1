@@ -11,6 +11,9 @@ require_once('class/Tools.php');
 require_once('class/Template.php');
 require_once('class/Layout.php');
 
+require_once('class/Cache.php');
+require_once('class/Logger.php');
+
 require_once('class/database.php');
 
 //db properties

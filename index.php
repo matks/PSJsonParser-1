@@ -2,6 +2,8 @@
 
 require_once('config.php');
 
+$cache = new Cache(md5('index'));
+
 //display versions labels
 $execution = new Execution($db);
 $versions = $execution->getVersions();
@@ -54,4 +56,4 @@ $view->set(['table_content' => $table_html]);
 $layout->setView($view);
 $layout->render();
 
-
+$cache->store();
