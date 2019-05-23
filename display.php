@@ -213,6 +213,4 @@ $content .= '</article>';
 $view->set(['content' => $content]);
 
 $layout->setView($view);
-$layout->render();
-
-$cache->store();
+$layout->render($cache);

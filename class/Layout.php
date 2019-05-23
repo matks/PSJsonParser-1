@@ -63,7 +63,7 @@ class Layout
         $this->viewTemplate = $template;
     }
 
-    public function render() {
+    public function render($cache = null) {
 
         //get the content of the layout file
         $this->setFileContent();
@@ -99,5 +99,8 @@ class Layout
         //buffering is handled by the caching system
         echo $this->layoutFileContent;
 
+        if ($cache) {
+            $cache->store();
+        }
     }
 }
