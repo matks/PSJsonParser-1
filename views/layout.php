@@ -1,0 +1,12 @@
+<html>
+<head>
+    <title>
+        {{TITLE}}
+    </title>
+    {{CSS}}
+</head>
+<body>
+{{CONTENT}}
+{{JS}}
+</body>
+</html>
