@@ -30,8 +30,8 @@ class Execution extends Model
             'ref' => $this->ref,
             'version' => $this->version,
             'duration' => $this->stats->duration,
-            'start_date' => $this->format_datetime($this->stats->start),
-            'end_date' => $this->format_datetime($this->stats->end),
+            'start_date' => Tools::format_datetime($this->stats->start),
+            'end_date' => Tools::format_datetime($this->stats->end),
             'suites' => $this->stats->suites,
             'tests' => $this->stats->tests,
             'skipped' => $this->stats->skipped,
@@ -142,7 +142,5 @@ class Execution extends Model
         return $this->db->select($req, $criteria);
     }
 
-    private function format_datetime($value) {
-        return date('Y-m-d H:i:s', strtotime($value));
-    }
+
 }

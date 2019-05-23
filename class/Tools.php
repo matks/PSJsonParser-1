@@ -62,4 +62,8 @@ class Tools
         }
     }
 
+    public static function format_datetime($value) {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
+
 }
