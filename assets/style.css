@@ -658,3 +658,12 @@ span.label:hover {
     background-color: #6D8C9B;/*#5B7582;*/
     color:white;
 }
+
+.canvas_container {
+    margin: 20px 0;
+}
+
+.canvas_container .chart_title {
+    text-align: center;
+    padding: 5px 0;
+}

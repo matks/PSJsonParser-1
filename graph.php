@@ -45,6 +45,15 @@ $criteria = [
 $execution = new Execution($db);
 $data = $execution->getCustomData($criteria);
 
+
+$execution = new Execution($db);
+$precise = $execution->getPreciseStats($criteria);
+
+/*
+ *
+ * Layout stuff
+ *
+ */
 $layout = Layout::get();
 $layout->setTitle('Stats');
 $layout->addJSFile('https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js');
@@ -72,6 +81,8 @@ foreach($campaigns as $c) {
 $view->set(['select_campaign' => $select_campaign]);
 
 $view->set(['json_data' => json_encode($data)]);
+
+$view->set(['JSON_FAILURES_DATA' => json_encode($precise)]);
 
 $layout->setView($view);
 $layout->render();
