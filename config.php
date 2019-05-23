@@ -1,9 +1,12 @@
 <?php
 
-require_once('class/Execution.php');
-require_once('class/Suite.php');
-require_once('class/Test.php');
-require_once('class/Parser.php');
+require_once('class/models/Model.php');
+require_once('class/models/Execution.php');
+require_once('class/models/Suite.php');
+require_once('class/models/Test.php');
+require_once('class/models/Parser.php');
+
+require_once('class/Tools.php');
 
 require_once('class/database.php');
 
