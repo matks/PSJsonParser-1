@@ -8,6 +8,9 @@ require_once('class/models/Parser.php');
 
 require_once('class/Tools.php');
 
+require_once('class/Template.php');
+require_once('class/Layout.php');
+
 require_once('class/database.php');
 
 //db properties
@@ -18,6 +21,7 @@ define('DB_PASS','phpmyadmin');
 define('DB_NAME','prestashop_results');
 
 define('BASEURL', '/json/');
+define('BASEPATH', __DIR__.'/');
 
 try{
     $db = Database::get();
