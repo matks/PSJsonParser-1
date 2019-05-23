@@ -148,7 +148,7 @@ function loop_through($cur_suites) {
         }
         if (sizeof($suite->tests) > 0) {
             $content .= '<div class="informations">';
-            $content .= '<div class="block_info"><i class="material-icons">timer</i> <div class="info duration">'.Tools::format_duration($suite->duration).'</div></div>';
+            $content .= sprintf("<div class=\"block_info\"><i class=\"material-icons\">timer</i> <div class=\"info duration\">%s</div></div>", Tools::format_duration($suite->duration));
             $content .= '<div class="block_info"><i class="material-icons">assignment</i> <div class="info number_tests"> '.sizeof($suite->tests).'</div></div>';
             //get number of passed
             if ($suite->totalPasses > 0) {
@@ -184,14 +184,11 @@ function loop_through($cur_suites) {
                 }
                 $content .= '<section class="test_component '.$test->state.'">';
                 $content .= '<div class="block_test">';
-                $content .= '<div id="' . $test->uuid . '" class="test">
-                                    <div class="test_' . $test->state . '"> ' .$icon.' <span class="test_title" id="' . $test->uuid . '">'.$test->title . '</span></div>';
-                $content .= '<div class="test_duration"><i class="material-icons">timer</i> '.Tools::format_duration($test->duration).'</div>';
+                $content .= '<div id="' . $test->uuid . '" class="test"><div class="test_' . $test->state . '"> ' .$icon.' <span class="test_title" id="' . $test->uuid . '">'.$test->title . '</span></div>';
+                $content .= sprintf("<div class=\"test_duration\"><i class=\"material-icons\">timer</i> %s</div>", Tools::format_duration($test->duration));
                 if ($test->state == 'failed') {
                     $content .= '<div class="test_info error_message">' . $test->error_message . '</div>';
-                    $content .= '<div class="test_info stack_trace" id="stack_'.$test->uuid.'">
-                                            <code>' . str_replace('    at', "<br />&nbsp;&nbsp;&nbsp;&nbsp;at", $test->stack_trace) . '</code>
-                                            </div>';
+                    $content .= sprintf("<div class=\"test_info stack_trace\" id=\"stack_%s\"><code>%s</code></div>", $test->uuid, str_replace('    at', "<br />&nbsp;&nbsp;&nbsp;&nbsp;at", $test->stack_trace));
                 }
 
                 $content .= '</div>'; //uuid
@@ -214,10 +211,4 @@ $view->set(['content' => $content]);
 
 $layout->setView($view);
 $layout->render();
-
-
-
-
-
-?>
 
