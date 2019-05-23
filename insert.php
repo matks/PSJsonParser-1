@@ -4,6 +4,7 @@ $parser = new Parser($db);
 
 $directory = 'files/';
 $list = array_diff(scandir($directory), array('..', '.'));
+
 foreach($list as $file) {
     echo "-- Inserting $file...<br />";
     $pattern = '/reports_[0-9]{4}-[0-9]{2}-[0-9]{2}-(.*?)\.json/';
@@ -12,8 +13,9 @@ foreach($list as $file) {
         echo "-- [ERR] VERSION NOT FOUND IN FILENAME $file <br /><br />";
         continue;
     }
-    echo "-- Version detected : ".$matches[1]."<br />";
-    $parser->init($matches[1], $directory.$file);
+    var_dump($file);
+    echo "---- Version detected : ".$matches[1]."<br />";
+    //$parser->init($matches[1], $directory.$file);
     echo "-- $file inserted !<br /><br />";
 }
 

@@ -31,23 +31,7 @@ foreach($suites as $suite) {
     }
 }
 
-function buildTree(array &$suites, $parentId = null) {
-    $branch = array();
-    foreach ($suites as &$suite) {
-
-        if ($suite->parent_id == $parentId) {
-            $children = buildTree($suites, $suite->id);
-            if ($children) {
-                $suite->suites = $children;
-            }
-            $branch[$suite->id] = $suite;
-            unset($suite);
-        }
-    }
-    return $branch;
-}
-
-$suites_container = array_shift(array_values(buildTree($suites)));
+$suites_container = array_shift(array_values(Tools::buildTree($suites)));
 
 
 //get all campaigns and files for the summary
@@ -56,21 +40,6 @@ $campaignsAndFiles = $suite->getAllCampaignsAndFilesByExecutionId($id);
 
 $test = new Test($db);
 $invalid_session_id = $test->getSubset($id, 'invalid session id');
-
-function format_duration($duration) {
-    if ($duration != 0) {
-        $secs = round($duration/1000, 2);
-
-        $return = '';
-
-        $minutes = floor(($secs / 60) % 60);
-        if ($minutes > 0) {
-            $return .= $minutes.'m';
-        }
-        $return .= $secs.'s';
-        return $return;
-    }
-}
 
 ?>
 <html>
@@ -226,7 +195,7 @@ function format_duration($duration) {
                     }
                     if (sizeof($suite->tests) > 0) {
                         echo '<div class="informations">';
-                        echo '<div class="block_info"><i class="material-icons">timer</i> <div class="info duration">'.format_duration($suite->duration).'</div></div>';
+                        echo '<div class="block_info"><i class="material-icons">timer</i> <div class="info duration">'.Tools::format_duration($suite->duration).'</div></div>';
                         echo '<div class="block_info"><i class="material-icons">assignment</i> <div class="info number_tests"> '.sizeof($suite->tests).'</div></div>';
                         //get number of passed
                         $passed = $failed = $skipped = 0;
@@ -274,7 +243,7 @@ function format_duration($duration) {
                             echo '<div class="block_test">';
                             echo '<div id="' . $test->uuid . '" class="test">
                                     <div class="test_' . $test->state . '"> ' .$icon.' <span class="test_title" id="' . $test->uuid . '">'.$test->title . '</span></div>';
-                            echo '<div class="test_duration"><i class="material-icons">timer</i> '.format_duration($test->duration).'</div>';
+                            echo '<div class="test_duration"><i class="material-icons">timer</i> '.Tools::format_duration($test->duration).'</div>';
                             if ($test->state == 'failed') {
                                 echo '<div class="test_info error_message">' . $test->error_message . '</div>';
                                 echo '<div class="test_info stack_trace" id="stack_'.$test->uuid.'">

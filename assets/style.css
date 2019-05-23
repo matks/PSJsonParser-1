@@ -391,7 +391,7 @@ h3.suite_title {
 }
 
 .test_info {
-    padding: 10px 5px;
+    padding: 5px;
     margin-bottom: 2px;
     margin-left: 5px;
     color: grey;
@@ -591,6 +591,10 @@ table.table thead tr th {
 
 table.table tbody  {
     color: grey;
+}
+
+table.table tbody tr:nth-child(even) {
+    background-color: #EEEEEE;
 }
 
 table.table tbody tr td {

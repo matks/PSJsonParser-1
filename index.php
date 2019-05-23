@@ -7,8 +7,6 @@ $execution_list = $execution->getAllInformation();
 
 $versions = $execution->getVersions();
 
-var_dump($versions);
-
 ?>
 <html>
 <head>
@@ -37,6 +35,7 @@ var_dump($versions);
         <div class="options">
             <div class="blocks_container">
                 <div class="block">
+                    Filters :
                 <?php
                 if (sizeof($versions) > 1) {
                     foreach($versions as $version) {
