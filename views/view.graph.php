@@ -55,6 +55,12 @@
         <div class="canvas_container">
             <div class="chart_title">Statistics about test failures</div>
             <canvas id="chart_precise" style="width: 100%;" height="250"></canvas>
+            <div class="chart_legend">
+                <p><span>Assertion error</span>: Actual result differs from expected.</p>
+                <p><span>File not found</span>: Test didn't find the file it was looking for.</p>
+                <p><span>Timeout</span>: Object not found after waiting for it to be visible.</p>
+                <p><span>Object not found</span>: Selector not valid.</p>
+            </div>
         </div>
     </div>
 </div>

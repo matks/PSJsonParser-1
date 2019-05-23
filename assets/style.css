@@ -667,3 +667,16 @@ span.label:hover {
     text-align: center;
     padding: 5px 0;
 }
+
+.canvas_container .chart_legend {
+    font-size: 12px;
+}
+
+.canvas_container .chart_legend p {
+    margin: 0px;
+    padding: 3px 0;
+}
+
+.canvas_container .chart_legend p span {
+    font-weight: bold;
+}
