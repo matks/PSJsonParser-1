@@ -2,7 +2,8 @@
 
 class Logger
 {
-    static $log_file = "log/log.log";
+    // TODO log rotation
+    static $log_file = BASEPATH."log/log.log";
 
     static function log($log, $level='log') {
 
