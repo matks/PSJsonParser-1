@@ -47,6 +47,8 @@ $invalid_session_id = $test->getSubset($id, 'invalid session id');
 
 $layout = Layout::get();
 $layout->setTitle('Test report');
+$layout->addJSFile('https://code.jquery.com/jquery-3.4.1.min.js');
+
 $view = new Template('display');
 
 $view->set(['title' => 'Test report']);
@@ -188,10 +190,10 @@ function loop_through($cur_suites) {
                 $content .= '<section class="test_component '.$test->state.'">';
                 $content .= '<div class="block_test">';
                 $content .= '<div id="' . $test->uuid . '" class="test"><div class="test_' . $test->state . '"> ' .$icon.' <span class="test_title" id="' . $test->uuid . '">'.$test->title . '</span></div>';
-                $content .= sprintf("<div class=\"test_duration\"><i class=\"material-icons\">timer</i> %s</div>", Tools::format_duration($test->duration));
+                $content .= '<div class="test_duration"><i class="material-icons">timer</i> '.Tools::format_duration($test->duration).'</div>';
                 if ($test->state == 'failed') {
                     $content .= '<div class="test_info error_message">' . $test->error_message . '</div>';
-                    $content .= sprintf("<div class=\"test_info stack_trace\" id=\"stack_%s\"><code>%s</code></div>", $test->uuid, str_replace('    at', "<br />&nbsp;&nbsp;&nbsp;&nbsp;at", $test->stack_trace));
+                    $content .= '<div class="test_info stack_trace" id="stack_'.$test->uuid.'"><code>'.str_replace('    at', "<br />&nbsp;&nbsp;&nbsp;&nbsp;at", $test->stack_trace).'</code></div>';
                 }
 
                 $content .= '</div>'; //uuid
