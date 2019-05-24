@@ -3,16 +3,23 @@
 class Cache
 {
     private $cache_path = BASEPATH.'cache/';
-    private $cache_url = BASEURL.'cache/';
     private $cache_ttl = 3600 * 24;
     private $key = null;
+
+    private $active = true;
 
 
     public function __construct($key)
     {
-        $this->key = $key;
-        $this->retrieve(); //try to retrieve the cache for this key
-        ob_start(); //starts buffering
+        if ($key === false) {
+            $this->active = false;
+            Logger::log("Caching deactivated");
+            return false;
+        } else {
+            $this->key = $key;
+            $this->retrieve(); //try to retrieve the cache for this key
+            ob_start(); //starts buffering
+        }
     }
 
     private function check()
@@ -23,20 +30,23 @@ class Cache
 
     public function store()
     {
-        $full_path = $this->getFullPath($this->key);
-        $content = ob_get_contents();
+        if ($this->active) {
+            $full_path = $this->getFullPath($this->key);
+            $content = ob_get_contents();
 
-        Logger::log("Caching key $this->key");
+            Logger::log("Caching key $this->key");
 
-        $fh = fopen($full_path, "w");
-        fwrite($fh, $content);
-        fclose($fh);
+            $fh = fopen($full_path, "w");
+            fwrite($fh, $content);
+            fclose($fh);
 
-        ob_end_flush();
+            ob_end_flush();
+        }
     }
 
     public function retrieve()
     {
+
         $full_path = $this->getFullPath($this->key);
         if ($this->check()) {
             if (time() - filemtime($full_path) < $this->cache_ttl) {
@@ -54,9 +64,9 @@ class Cache
         }
     }
 
-    private function getFullFilename($key)
+    public function deactivate()
     {
-        return $this->cache_url.$key.'.cache.html';
+        $this->active = false;
     }
 
     private function getFullPath($key)
