@@ -4,9 +4,9 @@
         {{TITLE}}
     </title>
     {{CSS}}
+    {{JS}}
 </head>
 <body>
 {{CONTENT}}
-{{JS}}
 </body>
 </html>

@@ -57,51 +57,26 @@
     </div>
 </div>
 <script>
-    window.onload = function() {
-        let test_blocks;
-        test_blocks = document.querySelectorAll(".test_title");
-        for (const test_block of test_blocks) {
-            test_block.addEventListener('click', function() {
-                let id = this.id;
-                let stt = document.getElementById('stack_'+id).style;
-                if (stt.display !== "block") {
-                    stt.display = "block";
-                } else {
-                    stt.display = "none";
-                }
-            })
-        }
+        $(document).ready(function() {
+            $('.test_title').click(function() {
+                let id = $(this).attr('id');
+                $('#stack_'+id).toggle();
+            });
 
-        let toggle_failed_button = document.getElementById('toggle_failed');
-        toggle_failed_button.addEventListener('click', function() {
-            let state = toggle_failed_button.dataset.state;
-            if (state === 'shown') {
-                //let's hide it
-                toggle_failed_button.innerHTML = 'Show Passed Tests';
-                let passed_suites = document.querySelectorAll("section.suite.hasPassed:not(.hasFailed)");
-                passed_suites.forEach(function (suite) {
-                    suite.style.display = "none";
-                });
-                //hide tests
-                let passed_tests = document.querySelectorAll("section.test_component.passed");
-                passed_tests.forEach(function (block) {
-                    block.style.display = "none";
-                });
-                toggle_failed_button.dataset.state = 'hidden';
-            } else {
-                //let's show it
-                toggle_failed_button.innerHTML = 'Hide Passed Tests';
-                let passed_suites = document.querySelectorAll("section.suite.hasPassed:not(.hasFailed)");
-                passed_suites.forEach(function (suite) {
-                    suite.style.display = "block";
-                });
-                //hide tests
-                let passed_tests = document.querySelectorAll("section.test_component.passed");
-                passed_tests.forEach(function (block) {
-                    block.style.display = "block";
-                });
-                toggle_failed_button.dataset.state = 'shown';
-            }
+            $('#toggle_failed').click(function() {
+                let state = $(this).data('state');
+
+                if (state === 'shown') {
+                    $('section.suite.hasPassed:not(.hasFailed)').hide();
+                    $('section.test_component.passed').hide();
+                    $(this).html('Show Passed Tests');
+                    $(this).data('state', 'hidden');
+                } else {
+                    $('section.suite.hasPassed:not(.hasFailed)').show();
+                    $('section.test_component.passed').show();
+                    $(this).html('Hide Passed Tests');
+                    $(this).data('state', 'shown');
+                }
+            });
         });
-    }
 </script>

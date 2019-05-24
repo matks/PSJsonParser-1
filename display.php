@@ -8,7 +8,8 @@ if (!isset($_GET['id']) || $_GET['id'] == '') {
 
 $id = trim($_GET['id']);
 //does the cache exists for this one ?
-$cache = new Cache(md5('display_'.$id));
+//$cache = new Cache(md5('display_'.$id));
+$cache = new Cache(false);
 
 try {
     $execution = new Execution($db);
