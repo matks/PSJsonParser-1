@@ -35,6 +35,7 @@ foreach($suites as $suite) {
     }
 }
 
+//$suites_container = array_shift(array_values(Tools::buildTree($suites)));
 $suites_container = array_shift(array_values(Tools::buildTree($suites)));
 
 
@@ -118,10 +119,7 @@ $content = '';
 $current_campaign_name = '';
 $current_file_name = '';
 
-function loop_through($cur_suites) {
-    global $current_campaign_name;
-    global $current_file_name;
-    global $content;
+function loop_through($cur_suites, &$content, &$current_campaign_name, &$current_file_name) {
     foreach($cur_suites as $suite) {
         if ($current_campaign_name != $suite->campaign) {
             if ($current_campaign_name != '') {
@@ -204,12 +202,12 @@ function loop_through($cur_suites) {
             $content .= '</div>';
         }
         if (sizeof($suite->suites) > 0) {
-            loop_through($suite->suites);
+            loop_through($suite->suites,  $content,$current_campaign_name, $current_file_name);
         }
         $content .= '</section>';
     }
 }
-loop_through($suites_container->suites);
+loop_through($suites_container->suites, $content, $current_campaign_name, $current_file_name);
 $content .= '</section>';
 $content .= '</article>';
 
