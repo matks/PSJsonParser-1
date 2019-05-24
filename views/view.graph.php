@@ -186,7 +186,7 @@
             let item = data.find(function(element) {
                 return element.custom_start_date == label;
             });
-            window.open('{{BASEURL}}display.php?id='+item.id, '_blank');
+            window.open('{{BASEURL}}report.php?id='+item.id, '_blank');
         };
     }
 </script>
