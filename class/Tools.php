@@ -47,6 +47,11 @@ class Tools
         return $branch;
     }
 
+    public static function removeExtension($filename)
+    {
+        return substr($filename, 0, strrpos($filename, "."));
+    }
+
     public static function format_duration($duration) {
         if ($duration != 0) {
             $secs = round($duration/1000, 2);
