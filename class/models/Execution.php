@@ -89,6 +89,16 @@ class Execution extends Model
         return $this->end_date;
     }
 
+    function getSuites()
+    {
+        return $this->suites;
+    }
+
+    function getTests()
+    {
+        return $this->tests;
+    }
+
     function getPassed() {
         return $this->passes;
     }

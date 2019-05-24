@@ -82,7 +82,11 @@ class Test extends Model
         ORDER BY t.id;");
         $sth->execute(['execution_id' => $execution_id]);
         return $sth->fetchAll(PDO::FETCH_OBJ);
+    }
 
+    function getAllTestsByFile($execution_id, $campaign, $file)
+    {
+        return $this->db->select("t.* FROM test t INNER JOIN suite s ON s.id=t.suite_id WHERE s.campaign=:campaign AND s.file=:file AND s.execution_id=:execution_id;", ['execution_id' => $execution_id, 'campaign' => $campaign, 'file' => $file]);
     }
 
     function getSubset($execution_id, $criteria)

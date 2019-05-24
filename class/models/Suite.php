@@ -150,6 +150,11 @@ class Suite extends Model
             ORDER BY s.campaign, s.file", ['execution_id' => $execution_id]);
     }
 
+    function getAllSuitesByFile($execution_id, $campaign, $file)
+    {
+        return $this->db->select("* FROM suite WHERE campaign=:campaign AND file=:file AND execution_id=:execution_id ORDER BY id", ['execution_id' => $execution_id, 'campaign' => $campaign, 'file' => $file]);
+    }
+
     function getCampaigns() {
         return $this->db->select('DISTINCT(campaign) FROM suite WHERE campaign IS NOT NULL ORDER BY campaign;');
     }

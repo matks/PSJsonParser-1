@@ -463,9 +463,13 @@ code {
     font-family: 'Roboto Mono', monospace;
 }
 
+.file_title h3 {
+    cursor: pointer;
+}
+
 hr {
     width: 90%;
-    border-top-color: #37474f;
+    background-color: #37474f;
     margin: 3px 0;
 }
 
