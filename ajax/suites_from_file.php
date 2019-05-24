@@ -11,6 +11,8 @@ $execution_id = trim($_GET['execution_id']);
 $campaign = trim($_GET['campaign']);
 $file = trim($_GET['file']).'.js';
 
+$cache = new Cache('dynamic_'.$execution_id.'_'.$campaign.'_'.$file);
+
 //get suites and tests for this campaign/file
 $suite = new Suite($db);
 $suites = $suite->getAllSuitesByFile($execution_id, $campaign, $file);
@@ -43,6 +45,7 @@ if (sizeof($suites) > 0 && sizeof($tests) > 0) {
 } else {
     http_response_code(403);
     echo json_encode(['message' => 'Arguments missing']);
+    $cache->store();
     die();
 }
 
@@ -106,7 +109,7 @@ function loop_through($cur_suites, &$suites_content) {
             }
             $suites_content .= '</div>';
         }
-        if (sizeof($suite->suites) > 0) {
+        if ($suite->hasSuites) {
             loop_through($suite->suites, $suites_content);
         }
         $suites_content .= '</section>';

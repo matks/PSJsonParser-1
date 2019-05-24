@@ -2,7 +2,7 @@
 
 require_once('config.php');
 
-$cache = new Cache(md5('index'));
+$cache = new Cache('index');
 
 //display versions labels
 $execution = new Execution($db);
@@ -35,7 +35,7 @@ if (sizeof($execution_list) > 0) {
             $content .= '<div class="content_block count_skipped" title="Tests skipped"><i class="material-icons">radio_button_checked</i> '.$elem->getSkipped().'</div>';
         }
         $table_html .= '<tr class="version_'.str_replace('.', '', $elem->getVersion()).'">';
-        $table_html .= '<td><a href="display.php?id='.$elem->getId().'" target="_blank"><i class="material-icons">visibility</i> Show report</a></td>';
+        $table_html .= '<td><a href="report.php?id='.$elem->getId().'" target="_blank"><i class="material-icons">visibility</i> Show report</a></td>';
         $table_html .= '<td>'.date('d/m/Y', strtotime($elem->getStartDate())).'</td>';
         $table_html .= '<td>'.$elem->getVersion().'</td>';
         $table_html .= '<td>'.date('H:i', strtotime($elem->getStartDate())).' - '.date('H:i', strtotime($elem->getEndDate())).' ('.$elem->getTotalDuration().')</td>';
