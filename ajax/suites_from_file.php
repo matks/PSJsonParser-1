@@ -1,6 +1,7 @@
 <?php
 
 require_once('../config.php');
+
 if (!isset($_GET['execution_id']) || $_GET['execution_id'] == '' || !isset($_GET['file']) || $_GET['file'] == '' || !isset($_GET['campaign']) || $_GET['campaign'] == '') {
     http_response_code(403);
     echo json_encode(['message' => 'Arguments missing']);
