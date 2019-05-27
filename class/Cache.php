@@ -6,7 +6,7 @@ class Cache
     private $cache_ttl = 3600 * 24;
     private $key = null;
 
-    private $active = true;
+    private $active = false;
 
 
     public function __construct($key)
