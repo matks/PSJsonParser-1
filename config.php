@@ -23,7 +23,7 @@ define('DB_USER','simon');
 define('DB_PASS','phpmyadmin');
 define('DB_NAME','prestashop_results');
 
-define('BASEURL', '/json/');
+define('BASEURL', '/'.basename(__DIR__).'/');
 define('BASEPATH', __DIR__.'/');
 
 try{
