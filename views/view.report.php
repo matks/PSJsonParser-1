@@ -44,9 +44,7 @@
             <div class="navigation_block">
                 <div class="additional_infos">
                     <h4>Additional Info</h4>
-                    <div class="info">
-                        <span><i class="material-icons">bug_report</i> Invalid Session ID bugs: </span> {{INVALID_SESSION_ID_COUNT}}
-                    </div>
+                    {{PRECISE_STATS}}
                 </div>
             </div>
         </div>
@@ -61,7 +59,7 @@
 
         $('body').on('click', '.test_title', function() {
             let id = $(this).attr('id');
-            $('#stack_'+id).toggle();
+            $('#stack_'+id).slideToggle('fast');
         });
 
         $('body').on('click', '#toggle_failed', function() {
@@ -95,6 +93,7 @@
                     success: function(response) {
                         $('#file_container_'+file).hide().html(response).fadeIn('fast');
                         button.attr('data-state', 'loaded');
+                        button.attr('title', "Click to toggle the view");
                     },
                     error: function(response) {
                         alert("Loading failed. Try again in a few moments.");

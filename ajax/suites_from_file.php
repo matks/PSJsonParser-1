@@ -9,9 +9,9 @@ if (!isset($_GET['execution_id']) || $_GET['execution_id'] == '' || !isset($_GET
 
 $execution_id = trim($_GET['execution_id']);
 $campaign = trim($_GET['campaign']);
-$file = trim($_GET['file']).'.js';
+$file = Tools::unsanitizeFilename($_GET['file']);
 
-$cache = new Cache('dynamic_'.$execution_id.'_'.$campaign.'_'.Tools::removeExtension($file));
+$cache = new Cache('dynamic_'.$execution_id.'_'.$campaign.'_'.Tools::sanitizeFilename($file));
 
 //get suites and tests for this campaign/file
 $suite = new Suite($db);
@@ -45,7 +45,7 @@ if (sizeof($suites) > 0 && sizeof($tests) > 0) {
 
 } else {
     http_response_code(403);
-    echo json_encode(['message' => 'Arguments missing']);
+    echo json_encode(['message' => 'No suite or tests found']);
     die();
 }
 

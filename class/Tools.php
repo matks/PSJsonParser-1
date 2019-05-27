@@ -52,6 +52,16 @@ class Tools
         return substr($filename, 0, strrpos($filename, "."));
     }
 
+    public static function sanitizeFilename($filename)
+    {
+        return str_replace('/', '___', substr($filename, 0, strrpos($filename, ".")));
+    }
+
+    public static function unsanitizeFilename($filename)
+    {
+        return str_replace('___', '/', $filename).'.js';
+    }
+
     public static function format_duration($duration) {
         if ($duration != 0) {
             $secs = round($duration/1000, 2);
