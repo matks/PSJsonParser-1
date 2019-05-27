@@ -82,7 +82,7 @@ class Suite extends Model
             'execution_id'  => $this->execution_id,
             'uuid'          => $this->uuid,
             'title'         => $this->title,
-            'campaign'      => $this->campaign,
+            'campaign'      => ($this->campaign == '' ? null : $this->campaign),
             'file'          => $this->file,
             'duration'      => $this->duration,
             'hasSkipped'      => $this->hasSkipped ? 1 : 0,
@@ -156,7 +156,7 @@ class Suite extends Model
     }
 
     function getCampaigns() {
-        return $this->db->select('DISTINCT(campaign) FROM suite WHERE campaign IS NOT NULL ORDER BY campaign;');
+        return $this->db->select("DISTINCT(campaign) FROM suite WHERE campaign IS NOT NULL ORDER BY campaign;");
     }
 
     private function checkExistence() {

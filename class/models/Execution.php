@@ -152,30 +152,37 @@ class Execution extends Model
         return $this->db->select($req, $criteria);
     }
 
-        function getPreciseStats($criteria)
-        {
-            $req = "SELECT e.id, e.ref, e.start_date, DATE(e.start_date) custom_start_date,e.end_date,
-                SUM(IF(t.error_message LIKE 'AssertionError: expected%', 1, 0)) value_expected,
-                SUM(IF(t.error_message LIKE 'AssertionError: Expected File%', 1, 0)) file_not_found,
-                SUM(IF(t.error_message REGEXP 'element(.*) still not existing', 1, 0)) not_visible_after_timeout,
-                SUM(IF(t.error_message LIKE '%An element could not%', 1, 0)) wrong_locator
-            FROM execution e
-            INNER JOIN suite s ON s.execution_id = e.id
-            INNER JOIN test t ON t.suite_id = s.id
-            WHERE 1=1
-            AND e.version = :version
-            AND e.start_date BETWEEN :start_date AND :end_date
-            ";
-            if (isset($criteria['campaign']) && $criteria['campaign'] != '') {
-                $req .= "
-               AND s.campaign = :campaign
-            ";
-            } else {
-                unset($criteria['campaign']);
-            }
+    function getPreciseStats($criteria)
+    {
+        $req = "SELECT e.id, e.ref, e.start_date, DATE(e.start_date) custom_start_date,e.end_date,
+            SUM(IF(t.error_message LIKE 'AssertionError: expected%', 1, 0)) value_expected,
+            SUM(IF(t.error_message LIKE 'AssertionError: Expected File%', 1, 0)) file_not_found,
+            SUM(IF(t.error_message REGEXP 'element(.*) still not existing', 1, 0)) not_visible_after_timeout,
+            SUM(IF(t.error_message LIKE '%An element could not%', 1, 0)) wrong_locator,
+            SUM(IF(t.error_message LIKE '%invalid session id%', 1, 0)) invalid_session_id
+        FROM execution e
+        INNER JOIN suite s ON s.execution_id = e.id
+        INNER JOIN test t ON t.suite_id = s.id
+        WHERE 1=1
+        AND e.version = :version
+        AND e.start_date BETWEEN :start_date AND :end_date
+        ";
+        if (isset($criteria['campaign']) && $criteria['campaign'] != '') {
             $req .= "
-            GROUP BY e.id, e.ref, e.start_date,e.end_date";
-            return $this->db->select($req, $criteria);
+           AND s.campaign = :campaign
+        ";
+        } else {
+            unset($criteria['campaign']);
         }
+
+        if (isset($criteria['execution_id']) && $criteria['execution_id'] != '') {
+            $req .= "
+           AND s.execution_id = :execution_id
+        ";
+        }
+        $req .= "
+        GROUP BY e.id, e.ref, e.start_date,e.end_date";
+        return $this->db->select($req, $criteria);
+    }
 
 }

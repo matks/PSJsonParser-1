@@ -13,9 +13,8 @@ foreach($list as $file) {
         echo "-- [ERR] VERSION NOT FOUND IN FILENAME $file <br /><br />";
         continue;
     }
-    var_dump($file);
     echo "---- Version detected : ".$matches[1]."<br />";
-    //$parser->init($matches[1], $directory.$file);
+    $parser->init($matches[1], $directory.$file);
     echo "-- $file inserted !<br /><br />";
 }
 

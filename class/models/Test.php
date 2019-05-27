@@ -49,8 +49,6 @@ class Test extends Model
      * @return $this
      */
     function insert() {
-        //check if this uuid exists for this execution before inserting
-        $check = $this->checkExistence($this->uuid, $this->suite_id);
         $data = [
             'uuid' => $this->uuid,
             'title' => $this->title,
@@ -93,5 +91,4 @@ class Test extends Model
     {
         return $this->db->select('* FROM test t INNER JOIN suite s ON s.id=t.suite_id WHERE s.execution_id=:execution_id AND error_message LIKE :criteria;', ['execution_id' => $execution_id, 'criteria' => '%'.$criteria.'%']);
     }
-
 }

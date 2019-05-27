@@ -8,13 +8,13 @@ class Tools
             $pattern = '/\/full\/(.*?)\/(.*)/';
             preg_match($pattern, $filename, $matches);
             if ($type == 'campaign') {
-                return isset($matches[1]) ? $matches[1] : "";
+                return isset($matches[1]) ? $matches[1] : null;
             }
             if ($type == 'file') {
-                return isset($matches[2]) ? $matches[2] : "";
+                return isset($matches[2]) ? $matches[2] : null;
             }
         } else {
-            return "";
+            return null;
         }
     }
 
