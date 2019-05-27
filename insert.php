@@ -15,6 +15,7 @@ foreach($list as $file) {
     }
     echo "---- Version detected : ".$matches[1]."<br />";
     $parser->init($matches[1], $directory.$file);
+    sleep(2);
     echo "-- $file inserted !<br /><br />";
 }
 
