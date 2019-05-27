@@ -158,7 +158,7 @@
                     {
                         label: 'Invalid Session ID',
                         data: p_wrong_locator,
-                        backgroundColor: 'rgba(1255, 89, 172, '+opacity+')',
+                        backgroundColor: 'rgba(255, 63, 24, '+opacity+')',
                         fill: '-4'
                     }]
             },

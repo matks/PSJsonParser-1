@@ -125,8 +125,8 @@ button:hover {
 }
 
 #left_navigation .campaign:hover {
-    background-color: #4B5AA9;
-    color: #eee;
+    background-color: #37474f;
+    color: white;
 }
 
 #left_navigation .file {
@@ -155,8 +155,8 @@ button:hover {
 }
 
 #left_navigation .file:hover {
-    background-color: #4B5AA9;
-    color: #eee;
+    background-color: #37474f;
+    color: white;
 }
 
 #left_navigation .buttons {
@@ -459,7 +459,7 @@ code {
 .file_title h3 {
     font-weight: normal;
     font-size: 16px;
-    color: #4B5AA9;
+    color: #474F37;
     font-family: 'Roboto Mono', monospace;
     cursor: pointer;
     margin: 0 0 0 10px;
@@ -479,6 +479,11 @@ code {
 
 .file_title h3:hover span.indicator {
     color: rgba(80, 0, 0, 1);
+}
+
+.dynamic_container .ajaxloader {
+    margin: 3px auto;
+    text-align: center;
 }
 
 hr {

@@ -85,6 +85,7 @@
             let file = $(this).data('file');
             let data = {'campaign': campaign, 'file': file, 'execution_id': {{EXECUTION_ID}}};
             if ($(this).attr('data-state') === 'empty') {
+                $('#file_container_'+file).hide().html('<div class="ajaxloader"><img src="{{BASEURL}}assets/images/ajax-loader.gif"/></div>').slideDown();
                 $.ajax({
                     url: "{{BASEURL}}ajax/suites_from_file.php",
                     dataType: "JSON",
