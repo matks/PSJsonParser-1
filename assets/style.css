@@ -674,6 +674,7 @@ span.label:hover {
 
 .canvas_container .chart_legend {
     font-size: 12px;
+    padding: 5px
 }
 
 .canvas_container .chart_legend p {

@@ -8,7 +8,6 @@ if (!isset($_GET['id']) || $_GET['id'] == '') {
 
 $id = trim($_GET['id']);
 //does the cache exists for this one ?
-//$cache = new Cache(md5('display_'.$id));
 $cache = new Cache('report_'.$id);
 
 try {
@@ -22,8 +21,10 @@ try {
 $suite = new Suite($db);
 $campaignsAndFiles = $suite->getAllCampaignsAndFilesByExecutionId($id);
 
-$test = new Test($db);
-$invalid_session_id = $test->getSubset($id, 'invalid session id');
+//$test = new Test($db);
+//$invalid_session_id = $test->getSubset($id, 'invalid session id');
+$
+
 
 $layout = Layout::get();
 $layout->setTitle('Test report');

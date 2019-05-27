@@ -82,7 +82,7 @@ $view->set(['select_campaign' => $select_campaign]);
 
 $view->set(['json_data' => json_encode($data)]);
 
-$view->set(['JSON_FAILURES_DATA' => json_encode($precise)]);
+$view->set(['json_failures_data' => json_encode($precise)]);
 
 $layout->setView($view);
 $layout->render();

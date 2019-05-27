@@ -64,19 +64,19 @@
             $('#stack_'+id).toggle();
         });
 
-        $('#toggle_failed').click(function() {
-            let state = $(this).attr('data-state');
+        $('body').on('click', '#toggle_failed', function() {
+            var state = $(this).attr('data-state');
 
             if (state === 'shown') {
                 $('section.suite.hasPassed:not(.hasFailed)').hide();
                 $('section.test_component.passed').hide();
                 $(this).html('Show Passed Tests');
-                $(this).data('state', 'hidden');
+                $(this).attr('data-state', 'hidden');
             } else {
                 $('section.suite.hasPassed:not(.hasFailed)').show();
                 $('section.test_component.passed').show();
                 $(this).html('Hide Passed Tests');
-                $(this).data('state', 'shown');
+                $(this).attr('data-state', 'shown');
             }
         });
 

@@ -49,17 +49,18 @@
         </div>
         <div class="canvas_container">
             <div class="chart_title">Percentage of tests passed and failed</div>
-            <canvas id="chart" style="width: 100%;" height="250"></canvas>
+            <canvas id="chart" style="width: 100%;" height="300"></canvas>
         </div>
 
         <div class="canvas_container">
             <div class="chart_title">Statistics about test failures</div>
-            <canvas id="chart_precise" style="width: 100%;" height="250"></canvas>
+            <canvas id="chart_precise" style="width: 100%;" height="300"></canvas>
             <div class="chart_legend">
                 <p><span>Assertion error</span>: Actual result differs from expected.</p>
                 <p><span>File not found</span>: Test didn't find the file it was looking for.</p>
                 <p><span>Timeout</span>: Object not found after waiting for it to be visible.</p>
                 <p><span>Object not found</span>: Selector not valid.</p>
+                <p><span>Invalid Session ID</span>: Selenium lost the browser.</p>
             </div>
         </div>
     </div>
@@ -75,7 +76,6 @@
         const labels = Array.from(data, x => x.custom_start_date);
         const passed_percent = Array.from(data, x => Math.round((parseFloat(x.totalPasses)*10000 / (parseFloat(x.totalPasses) + parseFloat(x.totalSkipped) + parseFloat(x.totalFailures))))/100 );
         const failed_percent = Array.from(data, x => Math.round((parseFloat(x.totalFailures)*10000 / (parseFloat(x.totalPasses) + parseFloat(x.totalSkipped) + parseFloat(x.totalFailures))))/100 );
-        const minValue_percent = Math.min.apply(null, passed_percent) - 20;
 
         var canvas = document.getElementById('chart');
         var ctx = canvas.getContext('2d');
@@ -104,9 +104,6 @@
                     }],
                     yAxes: [{
                         stacked: true,
-                        ticks: {
-                            min: minValue_percent
-                        }
                     }]
                 },
                 legend: {
@@ -125,6 +122,7 @@
         const p_file_not_found = Array.from(precise_data, x => x.file_not_found);
         const p_not_visible_after_timeout = Array.from(precise_data, x => x.not_visible_after_timeout);
         const p_wrong_locator = Array.from(precise_data, x => x.wrong_locator);
+        const p_invalid_session_id = Array.from(precise_data, x => x.invalid_session_id);
 
         var p_canvas = document.getElementById('chart_precise');
         var p_ctx = p_canvas.getContext('2d');
@@ -156,6 +154,12 @@
                         data: p_wrong_locator,
                         backgroundColor: 'rgba(153, 102, 255, '+opacity+')',
                         fill: '-3'
+                    },
+                    {
+                        label: 'Invalid Session ID',
+                        data: p_wrong_locator,
+                        backgroundColor: 'rgba(1255, 89, 172, '+opacity+')',
+                        fill: '-4'
                     }]
             },
             options: {
