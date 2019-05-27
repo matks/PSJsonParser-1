@@ -64,18 +64,18 @@ button:hover {
     margin: 10px 0;
 }
 
-#left_navigation .additional_infos .info {
+#left_navigation .additional_infos ul.precise_stats {
     padding-left: 5px;
     font-size: 14px;
     line-height: 14px;
+    list-style-type: none;
 }
 
-#left_navigation .additional_infos .info i {
-    font-size: 16px;
-    color: red
+#left_navigation .additional_infos ul.precise_stats li {
+    margin-top: 5px;
 }
 
-#left_navigation .additional_infos .info span {
+#left_navigation .additional_infos ul.precise_stats span {
     font-weight: bold;
 }
 
@@ -292,6 +292,7 @@ h3.suite_title {
 
 .material-icons {
     vertical-align: bottom;
+    font-size: 20px;
 }
 
 .informations .material-icons {
@@ -431,7 +432,7 @@ code {
 
 .campaign_title {
     padding: 5px 0 5px 10px;
-    line-height: 26px;
+    line-height: 24px;
 }
 
 .campaign_title:last-child {
@@ -440,7 +441,8 @@ code {
 
 .campaign_title h2 {
     font-weight: bold;
-    font-size: 26px;
+    font-size: 22px;
+    line-height: 22px;
     margin: 0;
     color: #37474f;
     font-family: 'Roboto Mono', monospace;
@@ -451,20 +453,32 @@ code {
 }
 
 .file_title {
-    padding: 5px 0 5px 10px;
-    line-height: 20px;
+    padding: 0;
 }
 
 .file_title h3 {
     font-weight: normal;
-    font-size: 20px;
-    margin: 0;
+    font-size: 16px;
     color: #4B5AA9;
     font-family: 'Roboto Mono', monospace;
+    cursor: pointer;
+    margin: 0 0 0 10px;
+    padding: 3px 0;
+    line-height: 16px;
 }
 
-.file_title h3 {
-    cursor: pointer;
+.file_title h3:hover {
+    background-color: #eee;
+}
+
+.file_title h3 span.indicator {
+    color: rgba(80, 0, 0, 0.5);
+    display: inline-block;
+    font-size: 12px;
+}
+
+.file_title h3:hover span.indicator {
+    color: rgba(80, 0, 0, 1);
 }
 
 hr {
